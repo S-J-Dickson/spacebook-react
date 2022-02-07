@@ -1,14 +1,11 @@
 module.exports = {
   root: true,
-  extends: [
-    '@react-native-community',
-     'airbnb-typescript',
-      'prettier',
-       'prettier/@typescript-eslint',
-        'prettier/react'
-      ],
+  extends: ['@react-native-community', 'airbnb', 'airbnb-typescript'],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
+  parserOptions: {
+    project: ['./tsconfig.json'], // Specify it only for TypeScript files
+  },
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
