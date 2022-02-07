@@ -60,7 +60,7 @@ const App = () => {
           
 
           <TextInput
-            placeholder="Email" />
+            placeholder="TESTTST" />
 
 <TextInput
   placeholder="password"
