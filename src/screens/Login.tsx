@@ -13,14 +13,9 @@ import {
 } from 'react-native';
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
-import { RootStackParams } from '../navigation/AppNavigation';
+import { RootStackParams } from '../navigation/StackNavigation';
 
 type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;
-
-const loginUser = () => {
-  console.log('logged in the user');
-};
-
 function LoginScreen() {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -28,6 +23,11 @@ function LoginScreen() {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  const loginUser = () => {
+    navigation.popToTop && navigation.navigate('Home');
+    console.log('logged in the user');
   };
 
   return (

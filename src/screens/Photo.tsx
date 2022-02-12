@@ -1,12 +1,10 @@
 import React from 'react';
 
-import {
- Button, SafeAreaView, Text, useColorScheme 
-} from 'react-native';
+import { SafeAreaView, useColorScheme, Text, Button } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-function Photo() {
+function PhotoScreen() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -21,4 +19,4 @@ function Photo() {
   );
 }
 
-export default Photo;
+export default PhotoScreen;
