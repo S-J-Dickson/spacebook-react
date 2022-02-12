@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { SafeAreaView, useColorScheme } from 'react-native';
+import {
+ Button, SafeAreaView, Text, useColorScheme 
+} from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-function App() {
+function Photo() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -13,9 +15,10 @@ function App() {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <text>Photo upload</text>
+      <Text>Photo upload</Text>
+      <Button title="Upload Photo" />
     </SafeAreaView>
   );
 }
 
-export default App;
+export default Photo;

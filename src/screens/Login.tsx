@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 
 import {
@@ -11,18 +13,18 @@ import {
 } from 'react-native';
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
+import { RootStackParams } from '../navigation/AppNavigation';
+
+type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;
 
 const loginUser = () => {
   console.log('logged in the user');
-  // TODO: Create request
 };
 
-const registerUser = () => {
-  console.log('regiser the user');
-};
-
-function App() {
+function LoginScreen() {
   const isDarkMode = useColorScheme() === 'dark';
+
+  const navigation = useNavigation<RegisterScreenProp>();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -47,11 +49,14 @@ function App() {
 
           <Button title="Login" onPress={loginUser} />
 
-          <Button title="Register" onPress={registerUser} />
+          <Button
+            title="Register"
+            onPress={() => navigation.navigate('Register')}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-export default App;
+export default LoginScreen;
