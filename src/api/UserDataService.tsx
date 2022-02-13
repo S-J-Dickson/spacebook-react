@@ -16,8 +16,8 @@ class UserDataService {
     });
   }
 
-  logout(id: number) {
-    return this.http.post<Array<UserLogin>>(`/logout?id=${id}`);
+  logout() {
+    return this.http.post<Array<UserLogin>>('/logout');
   }
 }
 

@@ -15,6 +15,7 @@ import {
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
 import UserDataService from '../api/UserDataService';
 import { RootStackParams } from '../types/Navigation';
+import UserLogin from '../interfaces';
 
 type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;
 function LoginScreen() {
@@ -31,7 +32,12 @@ function LoginScreen() {
 
     UserDataService.login('sd@mmu.ac.uk', 'hello123')
       .then((response: any) => {
-        console.log(response.data);
+        const data: UserLogin = {
+          id: response.data.id,
+          token: response.data.token,
+        };
+
+        console.log(data);
       })
       .catch((e: Error) => {
         console.log(e);
