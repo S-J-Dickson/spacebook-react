@@ -1,11 +1,8 @@
 /* eslint-disable react/function-component-definition */
-import React, {
- createContext, useState, useContext, useEffect 
-} from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import UserDataService from '../api/UserDataService';
-import { UserLogin } from '../interfaces/Interfaces';
 
 // Create the Auth Context with the data type specified
 // and a empty object
