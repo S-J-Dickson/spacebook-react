@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { SafeAreaView, useColorScheme, Text, Button } from 'react-native';
+import {
+ SafeAreaView, useColorScheme, Text, Button 
+} from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 

@@ -13,7 +13,8 @@ import {
 } from 'react-native';
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
-import { RootStackParams } from '../navigation/StackNavigation';
+import UserDataService from '../api/UserDataService';
+import { RootStackParams } from '../types/Navigation';
 
 type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;
 function LoginScreen() {
@@ -27,6 +28,15 @@ function LoginScreen() {
 
   const loginUser = () => {
     navigation.navigate('Home');
+
+    UserDataService.login('sd@mmu.ac.uk', 'hello123')
+      .then((response: any) => {
+        console.log(response.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+
     console.log('logged in the user');
   };
 

@@ -9,14 +9,6 @@ import HomeScreen from '../screens/Home';
 
 const Stack = createNativeStackNavigator();
 
-// Can go in types file
-export type RootStackParams = {
-  Login: undefined;
-  Register: undefined;
-  Photo: undefined;
-  Home: undefined;
-};
-
 // TODO:: https://reactnavigation.org/docs/auth-flow/
 function App() {
   return (

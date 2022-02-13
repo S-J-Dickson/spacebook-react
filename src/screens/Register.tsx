@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { RootStackParams } from '../navigation/StackNavigation';
+import { RootStackParams } from '../types/Navigation';
 
 type PhotoScreenProp = StackNavigationProp<RootStackParams, 'Photo'>;
 
