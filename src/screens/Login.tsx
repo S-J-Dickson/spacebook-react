@@ -26,7 +26,7 @@ function LoginScreen() {
   };
 
   const loginUser = () => {
-    navigation.popToTop && navigation.navigate('Home');
+    navigation.navigate('Home');
     console.log('logged in the user');
   };
 
