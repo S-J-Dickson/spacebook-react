@@ -8,7 +8,11 @@ import UserDataService from '../api/UserDataService';
 // and a empty object
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-const AuthProvider: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+function AuthProvider({ children }: Props) {
   const [authData, setAuthData] = useState<AuthData>();
 
   // the AuthContext start with loading equals true
@@ -38,11 +42,14 @@ const AuthProvider: React.FC = ({ children }) => {
     loadStorageData();
   }, []);
 
-  const signIn = async () => {
+  const signIn = async (loginUser: LoginUser) => {
     // Set the data in the context, so the App can be notified
     // and send the user to the AuthStack
     // Persist the data in the Async Storage
     // to be recovered in the next user session.
+
+    console.log(loginUser);
+
     UserDataService.login('sd@mmu.ac.uk', 'hello123')
       .then((response: any) => {
         const authDataResponse: AuthData = {
@@ -53,8 +60,6 @@ const AuthProvider: React.FC = ({ children }) => {
         setAuthData(authDataResponse);
 
         AsyncStorage.setItem('@AuthData', JSON.stringify(authDataResponse));
-
-        console.log(authData);
       })
       .catch((e: Error) => {
         console.log(e);
@@ -87,7 +92,7 @@ const AuthProvider: React.FC = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 // A simple hooks to facilitate the access to the AuthContext
 // and permit components to subscribe to AuthContext updates

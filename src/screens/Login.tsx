@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   SafeAreaView,
@@ -28,9 +28,11 @@ function LoginScreen() {
 
   const auth = useAuth();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const loginUser = () => {
-    // navigation.navigate('Home');
-    auth.signIn();
+    auth.signIn({ email, password });
     console.log('logged in the user');
   };
 
@@ -47,9 +49,16 @@ function LoginScreen() {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <TextInput placeholder="TESTTST" />
+          <TextInput
+            onChangeText={(text) => setEmail(text)}
+            placeholder="TESTTST"
+          />
 
-          <TextInput placeholder="password" keyboardType="visible-password" />
+          <TextInput
+            onChangeText={(text) => setPassword(text)}
+            placeholder="password"
+            keyboardType="visible-password"
+          />
 
           <Button title="Login" onPress={loginUser} />
 
