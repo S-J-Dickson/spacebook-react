@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   SafeAreaView,
@@ -13,9 +13,8 @@ import {
 } from 'react-native';
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
-import UserDataService from '../api/UserDataService';
 import { RootStackParams } from '../types/Navigation';
-import UserLogin from '../interfaces';
+import { useAuth } from '../context/AuthContext';
 
 type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;
 function LoginScreen() {
@@ -27,22 +26,13 @@ function LoginScreen() {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const auth = useAuth();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const loginUser = () => {
-    navigation.navigate('Home');
-
-    UserDataService.login('sd@mmu.ac.uk', 'hello123')
-      .then((response: any) => {
-        const data: UserLogin = {
-          id: response.data.id,
-          token: response.data.token,
-        };
-
-        console.log(data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-
+    auth.signIn({ email, password });
     console.log('logged in the user');
   };
 
@@ -59,9 +49,16 @@ function LoginScreen() {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <TextInput placeholder="TESTTST" />
+          <TextInput
+            onChangeText={(text) => setEmail(text)}
+            placeholder="TESTTST"
+          />
 
-          <TextInput placeholder="password" keyboardType="visible-password" />
+          <TextInput
+            onChangeText={(text) => setPassword(text)}
+            placeholder="password"
+            keyboardType="visible-password"
+          />
 
           <Button title="Login" onPress={loginUser} />
 

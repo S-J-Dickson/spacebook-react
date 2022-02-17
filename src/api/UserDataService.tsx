@@ -1,3 +1,4 @@
+import axios from 'axios';
 import http from './api';
 import { UserLogin } from '../interfaces/Interfaces';
 
@@ -5,8 +6,11 @@ import { UserLogin } from '../interfaces/Interfaces';
 class UserDataService {
   private http;
 
+  private axios;
+
   constructor() {
     this.http = http;
+    this.axios = axios;
   }
 
   login(email: string, password: string) {
@@ -16,8 +20,19 @@ class UserDataService {
     });
   }
 
-  logout() {
-    return this.http.post<Array<UserLogin>>('/logout');
+  logout(_authData: AuthData) {
+    console.log('In logout sectiuon');
+    console.log(_authData.token);
+
+    return this.axios
+      .create({
+        baseURL: 'http://10.0.2.2:3333/api/1.0.0/',
+        headers: {
+          'Content-type': 'application/json',
+          'X-Authorization': _authData.token,
+        },
+      })
+      .post('logout');
   }
 }
 
