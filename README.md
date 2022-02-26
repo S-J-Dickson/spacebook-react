@@ -18,3 +18,7 @@
 
 ## Folder structure
 - https://elazizi.com/how-to-structure-a-react-native-project
+
+
+## UI STYLE 
+- https://callstack.github.io/react-native-paper/text-input.html
