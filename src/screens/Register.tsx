@@ -12,6 +12,7 @@ import { HelperText, TextInput, Title, Button } from 'react-native-paper';
 import { RootStackParams } from '../types/Navigation';
 import { UserRequest } from '../interfaces/Interfaces';
 import RegistrationDataService from '../api/RegistrationDataService';
+import FormInput from '../components/FormInput';
 
 type PhotoScreenProp = StackNavigationProp<RootStackParams, 'Photo'>;
 
@@ -58,55 +59,39 @@ function RegisterScreen() {
 
   const onSubmit = (userRequest: UserRequest) => {
     console.log('Validated successfully');
+    console.log(userRequest);
     RegistrationDataService.createAccount(userRequest);
   };
 
   return (
     <SafeAreaView style={backgroundStyle}>
       <Title>Sign Up</Title>
-      <Controller
-        control={control}
-        rules={{
-          required: { value: true, message: ERROR_MESSAGES.REQUIRED },
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            mode="outlined"
-            placeholder="First Name"
-          />
-        )}
-        name="first_name"
-      />
-      {errors.first_name && (
-        <HelperText type="error"> {errors.first_name?.message} </HelperText>
-      )}
-      <Controller
-        control={control}
+
+      <FormInput
         rules={{
           required: { value: true, message: ERROR_MESSAGES.REQUIRED },
           maxLength: 100,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            mode="outlined"
-            placeholder="Last Name"
-          />
-        )}
-        name="last_name"
-      />
-      {errors.last_name && (
-        <HelperText type="error"> {errors.last_name?.message} </HelperText>
-      )}
-      <Controller
         control={control}
+        name="first_name"
+        placeHolder="First Name"
+        errorMessage={errors.first_name?.message}
+        error={errors.first_name}
+        isSecureTextEntry={false}
+      />
+      <FormInput
+        rules={{
+          required: { value: true, message: ERROR_MESSAGES.REQUIRED },
+        }}
+        control={control}
+        name="last_name"
+        placeHolder="Last Name"
+        errorMessage={errors.last_name?.message}
+        error={errors.last_name}
+        isSecureTextEntry={false}
+      />
+
+      <FormInput
         rules={{
           required: { value: true, message: ERROR_MESSAGES.REQUIRED },
           maxLength: 80,
@@ -116,46 +101,29 @@ function RegisterScreen() {
               /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/,
           },
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            mode="outlined"
-            placeholder="Email"
-          />
-        )}
-        name="email"
-      />
-      {errors.email && (
-        <HelperText type="error"> {errors.email?.message} </HelperText>
-      )}
-      <Controller
         control={control}
+        name="email"
+        placeHolder="Email"
+        errorMessage={errors.email?.message}
+        error={errors.email}
+        isSecureTextEntry={false}
+      />
+
+      <FormInput
         rules={{
           required: { value: true, message: ERROR_MESSAGES.REQUIRED },
-          min: {
+          minLength: {
             value: 5,
             message: ERROR_MESSAGES.PASSWORD_INVALID,
           },
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            secureTextEntry
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            mode="outlined"
-            placeholder="Password"
-          />
-        )}
+        control={control}
         name="password"
+        placeHolder="password"
+        errorMessage={errors.password?.message}
+        error={errors.password}
+        isSecureTextEntry
       />
-      {errors.password_repeat && (
-        <HelperText type="error"> {errors.password?.message} </HelperText>
-      )}
       <Controller
         control={control}
         rules={{
