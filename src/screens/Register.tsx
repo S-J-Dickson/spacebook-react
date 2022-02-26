@@ -17,9 +17,9 @@ type PhotoScreenProp = StackNavigationProp<RootStackParams, 'Photo'>;
 
 const styles = StyleSheet.create({
   input: {
-    marginVertical: 5,
+    marginVertical: 2,
+    height: 35,
   },
-  errorText: { color: 'red' },
 });
 
 function RegisterScreen() {
@@ -36,15 +36,19 @@ function RegisterScreen() {
     last_name: '',
     password: '',
     email: '',
+    password_repeat: '',
   };
 
   const {
+    watch,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues,
   });
+
+  defaultValues.password = watch('password', '');
 
   const ERROR_MESSAGES = {
     REQUIRED: 'This field is required',
@@ -53,7 +57,7 @@ function RegisterScreen() {
   };
 
   const onSubmit = (userRequest: UserRequest) => {
-    console.log(userRequest);
+    console.log('Validated successfully');
     RegistrationDataService.createAccount(userRequest);
   };
 
@@ -138,6 +142,7 @@ function RegisterScreen() {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
+            secureTextEntry
             style={styles.input}
             onBlur={onBlur}
             onChangeText={onChange}
@@ -148,9 +153,37 @@ function RegisterScreen() {
         )}
         name="password"
       />
-      {errors.password && (
+      {errors.password_repeat && (
         <HelperText type="error"> {errors.password?.message} </HelperText>
       )}
+      <Controller
+        control={control}
+        rules={{
+          required: { value: true, message: ERROR_MESSAGES.REQUIRED },
+          min: {
+            value: 5,
+            message: ERROR_MESSAGES.PASSWORD_INVALID,
+          },
+          validate: (value: string) =>
+            value === defaultValues.password || 'The passwords do not match',
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            secureTextEntry
+            style={styles.input}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            mode="outlined"
+            placeholder="Repeat Password"
+          />
+        )}
+        name="password_repeat"
+      />
+      {errors.password_repeat && (
+        <HelperText type="error">{errors.password_repeat?.message} </HelperText>
+      )}
+
       <Button mode="outlined" onPress={handleSubmit(onSubmit)}>
         Submit
       </Button>
