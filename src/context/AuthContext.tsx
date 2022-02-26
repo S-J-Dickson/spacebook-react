@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import FlashMessage from 'react-native-flash-message';
 import UserDataService from '../api/UserDataService';
+import { AuthContextData, AuthData, LoginUser } from '../types/Types';
 
 // Create the Auth Context with the data type specified
 // and a empty object

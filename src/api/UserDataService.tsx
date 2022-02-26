@@ -1,6 +1,7 @@
 import axios from 'axios';
 import http from './api';
 import { UserLogin } from '../interfaces/Interfaces';
+import { AuthData } from '../types/Types';
 
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service
 /**

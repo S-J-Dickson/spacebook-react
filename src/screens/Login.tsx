@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
-import { RootStackParams } from '../types/Navigation';
+import { RootStackParams } from '../types/Types';
 import { useAuth } from '../context/AuthContext';
 
 type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;

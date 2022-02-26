@@ -9,12 +9,12 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useForm, Controller } from 'react-hook-form';
 import { HelperText, TextInput, Title, Button } from 'react-native-paper';
 
-import { RootStackParams } from '../types/Navigation';
+import { RootStackParams } from '../types/Types';
 import { UserRequest } from '../interfaces/Interfaces';
 import RegistrationDataService from '../api/RegistrationDataService';
 import FormInput from '../components/FormInput';
 
-type PhotoScreenProp = StackNavigationProp<RootStackParams, 'Photo'>;
+type LoginScreenProp = StackNavigationProp<RootStackParams, 'Login'>;
 
 const styles = StyleSheet.create({
   input: {
@@ -29,9 +29,6 @@ function RegisterScreen() {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
-  const navigation = useNavigation<PhotoScreenProp>();
-
   const defaultValues: UserRequest = {
     first_name: '',
     last_name: '',
@@ -57,10 +54,10 @@ function RegisterScreen() {
     PASSWORD_INVALID: 'Password needs to be 5 characters or larger',
   };
 
+  const navigation = useNavigation<LoginScreenProp>();
+
   const onSubmit = (userRequest: UserRequest) => {
-    console.log('Validated successfully');
-    console.log(userRequest);
-    RegistrationDataService.createAccount(userRequest);
+    RegistrationDataService.createAccount(userRequest, navigation);
   };
 
   return (
@@ -119,7 +116,7 @@ function RegisterScreen() {
         }}
         control={control}
         name="password"
-        placeHolder="password"
+        placeHolder="Password"
         errorMessage={errors.password?.message}
         error={errors.password}
         isSecureTextEntry
@@ -155,7 +152,6 @@ function RegisterScreen() {
       <Button mode="outlined" onPress={handleSubmit(onSubmit)}>
         Submit
       </Button>
-      <Button onPress={() => navigation.navigate('Photo')}> Photo</Button>
     </SafeAreaView>
   );
 }
