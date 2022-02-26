@@ -3,6 +3,9 @@ import http from './api';
 import { UserLogin } from '../interfaces/Interfaces';
 
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service
+/**
+ * @author Stephen
+ */
 class UserDataService {
   private http;
 
@@ -13,6 +16,12 @@ class UserDataService {
     this.axios = axios;
   }
 
+  /**
+   *
+   * @param email
+   * @param password
+   * @returns
+   */
   login(email: string, password: string) {
     return this.http.post<Array<UserLogin>>('/login', {
       email,
@@ -20,6 +29,11 @@ class UserDataService {
     });
   }
 
+  /**
+   *
+   * @param _authData
+   * @returns
+   */
   logout(_authData: AuthData) {
     console.log('In logout sectiuon');
     console.log(_authData.token);

@@ -8,7 +8,10 @@ import { SafeAreaView, useColorScheme, StyleSheet } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useForm, Controller } from 'react-hook-form';
 import { HelperText, TextInput, Title, Button } from 'react-native-paper';
+
 import { RootStackParams } from '../types/Navigation';
+import { UserRequest } from '../interfaces/Interfaces';
+import RegistrationDataService from '../api/RegistrationDataService';
 
 type PhotoScreenProp = StackNavigationProp<RootStackParams, 'Photo'>;
 
@@ -28,40 +31,35 @@ function RegisterScreen() {
 
   const navigation = useNavigation<PhotoScreenProp>();
 
+  const defaultValues: UserRequest = {
+    first_name: '',
+    last_name: '',
+    password: '',
+    email: '',
+  };
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    },
+    defaultValues,
   });
 
   const ERROR_MESSAGES = {
     REQUIRED: 'This field is required',
-    NAME_INVALID: 'Not a Valid Name',
     EMAIL_INVALID: 'Not a valid email',
+    PASSWORD_INVALID: 'Password needs to be 5 characters or larger',
   };
-  interface UserRequest {
-    firstName: string;
-    email: string;
-    lastName: string;
-    password: string;
-  }
 
   const onSubmit = (userRequest: UserRequest) => {
-    console.log('doing something');
     console.log(userRequest);
+    RegistrationDataService.createAccount(userRequest);
   };
 
   return (
     <SafeAreaView style={backgroundStyle}>
       <Title>Sign Up</Title>
-
       <Controller
         control={control}
         rules={{
@@ -77,13 +75,11 @@ function RegisterScreen() {
             placeholder="First Name"
           />
         )}
-        name="firstName"
+        name="first_name"
       />
-
-      {errors.firstName && (
-        <HelperText type="error"> {errors.firstName?.message} </HelperText>
+      {errors.first_name && (
+        <HelperText type="error"> {errors.first_name?.message} </HelperText>
       )}
-
       <Controller
         control={control}
         rules={{
@@ -100,13 +96,11 @@ function RegisterScreen() {
             placeholder="Last Name"
           />
         )}
-        name="lastName"
+        name="last_name"
       />
-
-      {errors.lastName && (
-        <HelperText type="error"> {errors.lastName?.message} </HelperText>
+      {errors.last_name && (
+        <HelperText type="error"> {errors.last_name?.message} </HelperText>
       )}
-
       <Controller
         control={control}
         rules={{
@@ -114,7 +108,8 @@ function RegisterScreen() {
           maxLength: 80,
           pattern: {
             message: ERROR_MESSAGES.EMAIL_INVALID,
-            value: /^\S+@\S+$/i,
+            value:
+              /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/,
           },
         }}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -129,18 +124,16 @@ function RegisterScreen() {
         )}
         name="email"
       />
-
       {errors.email && (
         <HelperText type="error"> {errors.email?.message} </HelperText>
       )}
-
       <Controller
         control={control}
         rules={{
           required: { value: true, message: ERROR_MESSAGES.REQUIRED },
           min: {
             value: 5,
-            message: 'Password needs to be 5 characters or larger',
+            message: ERROR_MESSAGES.PASSWORD_INVALID,
           },
         }}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -155,15 +148,12 @@ function RegisterScreen() {
         )}
         name="password"
       />
-
       {errors.password && (
         <HelperText type="error"> {errors.password?.message} </HelperText>
       )}
-
       <Button mode="outlined" onPress={handleSubmit(onSubmit)}>
         Submit
       </Button>
-
       <Button onPress={() => navigation.navigate('Photo')}> Photo</Button>
     </SafeAreaView>
   );
