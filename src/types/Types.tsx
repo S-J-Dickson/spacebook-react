@@ -19,10 +19,12 @@ export type RegisterResponse = {
   user_id: number;
 };
 
-// Can go in types file
 export type RootStackParams = {
   Login: undefined;
   Register: undefined;
-  Photo: undefined;
-  Home: undefined;
+};
+
+export type SettingStackParams = {
+  Setting: undefined;
+  'Update Details': undefined;
 };

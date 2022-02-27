@@ -1,12 +1,20 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 
 import { SafeAreaView, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Avatar, Text } from 'react-native-paper';
+import { Avatar, Button, Text } from 'react-native-paper';
 import UserDataService from '../api/authenticated/user/UserDataService';
 import UserDetail from '../components/UserDetail';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
+import { SettingStackParams } from '../types/Types';
+
+type UserUpdateScreenProp = StackNavigationProp<
+  SettingStackParams,
+  'Update Details'
+>;
 
 function Setting() {
   const auth = useAuth();
@@ -14,6 +22,8 @@ function Setting() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   UserDataService.setAuth(auth.authData);
+
+  const navigation = useNavigation<UserUpdateScreenProp>();
 
   useEffect(() => {
     UserDataService.getUser(auth.authData?.id)
@@ -54,6 +64,13 @@ function Setting() {
           friend_count={data.friend_count}
         />
       )}
+
+      <Button
+        mode="outlined"
+        onPress={() => navigation.navigate('Update Details')}
+      >
+        Update Details
+      </Button>
     </SafeAreaView>
   );
 }
