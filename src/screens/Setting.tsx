@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 
@@ -27,40 +27,43 @@ function Setting() {
 
   const navigation = useNavigation<UserUpdateScreenProp>();
 
-  useEffect(() => {
-    UserDataService.getUser(auth.authData?.id)
-      .then((response: any) => {
-        // set data
-        setData(response.data);
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      UserDataService.getUser(auth.authData?.id)
+        .then((response: any) => {
+          // set data
+          setData(response.data);
 
-        const user: UserDetailInterface = {
-          first_name: response.data.first_name,
-          last_name: response.data.last_name,
-          email: response.data.email,
-          friend_count: response.data.friend_count,
-        };
+          const user: UserDetailInterface = {
+            first_name: response.data.first_name,
+            last_name: response.data.last_name,
+            email: response.data.email,
+            friend_count: response.data.friend_count,
+          };
 
-        auth.user = user;
+          auth.user = user;
+        })
+        .catch((err) => {
+          checkNetwork(err.message);
 
-        showMessage({
-          message: 'User data loaded',
-          type: 'success',
-          duration: 3000,
-        });
-      })
-      .catch((err) => {
-        checkNetwork(err.message);
+          if (err.response?.status === 400) {
+            showMessage({
+              message: 'Wrong email or password!',
+              type: 'danger',
+              duration: 3000,
+            });
+          }
+        })
+        .finally(() => setLoading(false));
 
-        if (err.response?.status === 400) {
-          showMessage({
-            message: 'Wrong email or password!',
-            type: 'danger',
-            duration: 3000,
-          });
-        }
-      })
-      .finally(() => setLoading(false));
-  }, []);
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        setData([]);
+      };
+    }, [])
+  );
 
   return (
     <SafeAreaView>

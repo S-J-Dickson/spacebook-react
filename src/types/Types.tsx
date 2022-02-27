@@ -34,6 +34,6 @@ export type RootStackParams = {
 };
 
 export type SettingStackParams = {
-  Setting: undefined;
+  Settings: undefined;
   'Update Details': undefined;
 };

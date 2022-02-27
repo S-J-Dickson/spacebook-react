@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -13,8 +15,13 @@ import {
   UserUpdate as UserUpdateInterface,
   UserRequest,
 } from '../interfaces/Interfaces';
+import { SettingStackParams } from '../types/Types';
+
+type SettingScreenProp = StackNavigationProp<SettingStackParams, 'Setting'>;
 
 function UserUpdate() {
+  const navigation = useNavigation<SettingScreenProp>();
+
   const auth = useAuth();
   const defaultValues: UserRequest = {
     first_name: '',
@@ -41,9 +48,6 @@ function UserUpdate() {
   const { user } = auth;
 
   const onSubmit = (userRequest: UserRequest) => {
-    console.log('UPDATE SUCCESS');
-    console.log(userRequest);
-
     const updateUser: UserUpdateInterface = {
       first_name: userRequest.first_name,
       last_name: userRequest.last_name,
@@ -58,6 +62,8 @@ function UserUpdate() {
           type: 'success',
           duration: 3000,
         });
+
+        navigation.navigate('Settings');
       })
       .catch((err) => {
         checkNetwork(err.message);
