@@ -24,7 +24,7 @@ class RegistrationDataService {
       .then(() => {
         showMessage({
           message: 'You have successfully created an account!',
-          type: 'danger',
+          type: 'success',
           duration: 3000,
         });
 
