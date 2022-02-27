@@ -8,6 +8,7 @@ import LoginDataService from '../api/unauthenticated/LoginDataService';
 import UserDataService from '../api/authenticated/user/UserDataService';
 import { AuthContextData, AuthData, LoginUser } from '../types/Types';
 import checkNetwork from '../exceptions/CheckNetwork';
+import { UserDetail } from '../interfaces/Interfaces';
 
 // Create the Auth Context with the data type specified
 // and a empty object
@@ -15,6 +16,13 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 type Props = {
   children: React.ReactNode;
+};
+
+const user: UserDetail = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  friend_count: 0,
 };
 
 function AuthProvider({ children }: Props) {
@@ -107,6 +115,7 @@ function AuthProvider({ children }: Props) {
         loading,
         signIn,
         signOut,
+        user,
       }}
     >
       {children}

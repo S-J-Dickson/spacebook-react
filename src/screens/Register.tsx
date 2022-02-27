@@ -54,7 +54,7 @@ function RegisterScreen() {
   const ERROR_MESSAGES = {
     REQUIRED: 'This field is required',
     EMAIL_INVALID: 'Not a valid email',
-    PASSWORD_INVALID: 'Password needs to be 5 characters or larger',
+    PASSWORD_INVALID: 'Password needs to be 6 characters or larger',
   };
 
   const navigation = useNavigation<LoginScreenProp>();
@@ -129,7 +129,7 @@ function RegisterScreen() {
         rules={{
           required: { value: true, message: ERROR_MESSAGES.REQUIRED },
           min: {
-            value: 5,
+            value: 6,
             message: ERROR_MESSAGES.PASSWORD_INVALID,
           },
           validate: (value: string) =>

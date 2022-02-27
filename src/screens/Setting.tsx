@@ -7,6 +7,8 @@ import { showMessage } from 'react-native-flash-message';
 import { Avatar, Button, Text } from 'react-native-paper';
 import UserDataService from '../api/authenticated/user/UserDataService';
 import UserDetail from '../components/UserDetail';
+import { UserDetail as UserDetailInterface } from '../interfaces/Interfaces';
+
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { SettingStackParams } from '../types/Types';
@@ -20,7 +22,7 @@ function Setting() {
   const auth = useAuth();
 
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   UserDataService.setAuth(auth.authData);
 
   const navigation = useNavigation<UserUpdateScreenProp>();
@@ -30,6 +32,15 @@ function Setting() {
       .then((response: any) => {
         // set data
         setData(response.data);
+
+        const user: UserDetailInterface = {
+          first_name: response.data.first_name,
+          last_name: response.data.last_name,
+          email: response.data.email,
+          friend_count: response.data.friend_count,
+        };
+
+        auth.user = user;
 
         showMessage({
           message: 'User data loaded',
@@ -69,7 +80,7 @@ function Setting() {
         mode="outlined"
         onPress={() => navigation.navigate('Update Details')}
       >
-        Update Details
+        Edit User Details
       </Button>
     </SafeAreaView>
   );

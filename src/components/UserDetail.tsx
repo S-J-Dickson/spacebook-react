@@ -1,15 +1,8 @@
 import React from 'react';
-import { Control } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { UserRequest } from '../interfaces/Interfaces';
+import { UserDetail } from '../interfaces/Interfaces';
 
-interface UserDetailProps {
-  first_name: object;
-  last_name: Control<UserRequest>;
-  email: string;
-  friend_count: number;
-}
 const styles = StyleSheet.create({
   baseText: {
     fontWeight: 'bold',
@@ -23,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
 });
-export default function FormInput(userDetailProps: UserDetailProps) {
+export default function FormInput(userDetailProps: UserDetail) {
   const { first_name, last_name, email, friend_count } = userDetailProps;
 
   return (
