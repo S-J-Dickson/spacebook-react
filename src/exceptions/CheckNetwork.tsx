@@ -5,6 +5,7 @@ export default function checkNetwork(error: string) {
     showMessage({
       message: 'Please connect to the internet.',
       type: 'warning',
+      duration: 5000,
     });
   }
 }

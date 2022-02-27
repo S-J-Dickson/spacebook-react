@@ -14,7 +14,7 @@ import { HelperText, TextInput, Title, Button } from 'react-native-paper';
 
 import { RootStackParams } from '../types/Types';
 import { UserRequest } from '../interfaces/Interfaces';
-import RegistrationDataService from '../api/RegistrationDataService';
+import RegistrationDataService from '../api/unauthenticated/RegistrationDataService';
 import FormInput from '../components/FormInput';
 
 type LoginScreenProp = StackNavigationProp<RootStackParams, 'Login'>;

@@ -1,21 +1,14 @@
 import React from 'react';
 
-import { SafeAreaView, useColorScheme } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { Text } from 'react-native-paper';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+function Setting() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <text>Settings are here</text>
+    <SafeAreaView>
+      <Text>Settings are here</Text>
     </SafeAreaView>
   );
 }
 
-export default App;
+export default Setting;
