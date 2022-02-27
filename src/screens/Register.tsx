@@ -1,3 +1,6 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-useless-escape */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';

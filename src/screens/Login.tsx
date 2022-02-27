@@ -1,73 +1,102 @@
+/* eslint-disable no-useless-escape */
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import React from 'react';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  TextInput,
-  useColorScheme,
-  View,
-  Button,
-} from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 
-import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
-import { RootStackParams } from '../types/Types';
+import { useForm } from 'react-hook-form';
+import { Button, Title } from 'react-native-paper';
+import { LoginUser, RootStackParams } from '../types/Types';
 import { useAuth } from '../context/AuthContext';
+import FormInput from '../components/FormInput';
+import { UserRequest } from '../interfaces/Interfaces';
 
 type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;
 function LoginScreen() {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const navigation = useNavigation<RegisterScreenProp>();
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   const auth = useAuth();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const defaultValues: UserRequest = {
+    first_name: '',
+    last_name: '',
+    password: '',
+    email: '',
+    password_repeat: '',
+  };
 
-  const loginUser = () => {
-    auth.signIn({ email, password });
-    console.log('logged in the user');
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues,
+  });
+
+  const ERROR_MESSAGES = {
+    REQUIRED: 'This field is required',
+    EMAIL_INVALID: 'Not a valid email',
+    PASSWORD_INVALID: 'Password needs to be 5 characters or larger',
+  };
+
+  const onSubmit = (userRequest: UserRequest) => {
+    const loginUser: LoginUser = {
+      email: userRequest.email,
+      password: userRequest.password,
+    };
+    auth.signIn(loginUser);
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}
-      >
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}
-        >
-          <TextInput
-            onChangeText={(text) => setEmail(text)}
-            placeholder="TESTTST"
-          />
-
-          <TextInput
-            onChangeText={(text) => setPassword(text)}
-            placeholder="password"
-            keyboardType="visible-password"
-          />
-
-          <Button title="Login" onPress={loginUser} />
-
-          <Button
-            title="Register"
-            onPress={() => navigation.navigate('Register')}
-          />
+    <SafeAreaView>
+      <View>
+        <View>
+          <Title> Welcome to SPACEBOOK</Title>
         </View>
-      </ScrollView>
+
+        <FormInput
+          rules={{
+            required: { value: true, message: ERROR_MESSAGES.REQUIRED },
+            maxLength: 80,
+            pattern: {
+              message: ERROR_MESSAGES.EMAIL_INVALID,
+              value:
+                /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/,
+            },
+          }}
+          control={control}
+          name="email"
+          placeHolder="Email"
+          errorMessage={errors.email?.message}
+          error={errors.email}
+          isSecureTextEntry={false}
+        />
+
+        <FormInput
+          rules={{
+            required: { value: true, message: ERROR_MESSAGES.REQUIRED },
+            minLength: {
+              value: 5,
+              message: ERROR_MESSAGES.PASSWORD_INVALID,
+            },
+          }}
+          control={control}
+          name="password"
+          placeHolder="Password"
+          errorMessage={errors.password?.message}
+          error={errors.password}
+          isSecureTextEntry
+        />
+
+        <Button mode="outlined" onPress={handleSubmit(onSubmit)}>
+          Login
+        </Button>
+
+        <Button mode="outlined" onPress={() => navigation.navigate('Register')}>
+          Register
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
