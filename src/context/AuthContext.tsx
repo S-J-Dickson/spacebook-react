@@ -1,10 +1,12 @@
-/* eslint-disable react/function-component-definition */
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable object-curly-newline */
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import FlashMessage from 'react-native-flash-message';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 import UserDataService from '../api/UserDataService';
 import { AuthContextData, AuthData, LoginUser } from '../types/Types';
+import checkNetwork from '../exceptions/CheckNetwork';
 
 // Create the Auth Context with the data type specified
 // and a empty object
@@ -30,8 +32,6 @@ function AuthProvider({ children }: Props) {
         const data: AuthData = JSON.parse(authDataSerialized);
         setAuthData(data);
       }
-    } catch (error) {
-      console.log('show error');
     } finally {
       // loading finished
       setLoading(false);
@@ -49,10 +49,7 @@ function AuthProvider({ children }: Props) {
     // and send the user to the AuthStack
     // Persist the data in the Async Storage
     // to be recovered in the next user session.
-
-    console.log(loginUser);
-
-    UserDataService.login('sd@mmu.ac.uk', 'hello123')
+    UserDataService.login(loginUser)
       .then((response: any) => {
         const authDataResponse: AuthData = {
           id: response.data.id,
@@ -62,9 +59,23 @@ function AuthProvider({ children }: Props) {
         setAuthData(authDataResponse);
 
         AsyncStorage.setItem('@AuthData', JSON.stringify(authDataResponse));
+
+        showMessage({
+          message: 'You have successfully logged in!',
+          type: 'success',
+          duration: 3000,
+        });
       })
-      .catch((e: Error) => {
-        console.log(e);
+      .catch((err) => {
+        checkNetwork(err.message);
+
+        if (err.response.status === 400) {
+          showMessage({
+            message: 'Wrong email or password!',
+            type: 'danger',
+            duration: 3000,
+          });
+        }
       });
   };
 

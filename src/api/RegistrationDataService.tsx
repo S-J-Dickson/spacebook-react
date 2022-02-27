@@ -18,29 +18,27 @@ class RegistrationDataService {
    *
    * @param userRequest
    */
-  createAccount(userRequest: UserRequest, navigation: LoginScreenProp) {
-    return this.http
-      .post<Array<RegisterResponse>>('/user', userRequest)
-      .then(() => {
+  async createAccount(userRequest: UserRequest, navigation: LoginScreenProp) {
+    try {
+      await this.http.post<Array<RegisterResponse>>('/user', userRequest);
+      showMessage({
+        message: 'You have successfully created an account!',
+        type: 'success',
+        duration: 3000,
+      });
+
+      navigation.navigate('Login');
+    } catch (err: any) {
+      checkNetwork(err.message);
+
+      if (err.response.status === 400) {
         showMessage({
-          message: 'You have successfully created an account!',
-          type: 'success',
+          message: 'This account already exists!',
+          type: 'danger',
           duration: 3000,
         });
-
-        navigation.navigate('Login');
-      })
-      .catch((error) => {
-        checkNetwork(error.message);
-
-        if (error.response.status === 400) {
-          showMessage({
-            message: 'This account already exists!',
-            type: 'danger',
-            duration: 3000,
-          });
-        }
-      });
+      }
+    }
   }
 }
 

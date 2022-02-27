@@ -3,12 +3,11 @@ export type AuthContextData = {
   loading: boolean;
   signIn(loginUser: LoginUser): Promise<void>;
   signOut(): void;
-  loginUser: LoginUser;
 };
 
 export type AuthData = {
   token: string;
-  id: string;
+  id: number;
 };
 
 export type LoginUser = {

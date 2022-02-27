@@ -1,7 +1,7 @@
 import axios from 'axios';
 import http from './api';
 import { UserLogin } from '../interfaces/Interfaces';
-import { AuthData } from '../types/Types';
+import { AuthData, LoginUser } from '../types/Types';
 
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service
 /**
@@ -19,15 +19,11 @@ class UserDataService {
 
   /**
    *
-   * @param email
-   * @param password
+   * @param loginUser
    * @returns
    */
-  login(email: string, password: string) {
-    return this.http.post<Array<UserLogin>>('/login', {
-      email,
-      password,
-    });
+  login(loginUser: LoginUser) {
+    return this.http.post<Array<UserLogin>>('/login', loginUser);
   }
 
   /**
@@ -36,9 +32,6 @@ class UserDataService {
    * @returns
    */
   logout(_authData: AuthData) {
-    console.log('In logout sectiuon');
-    console.log(_authData.token);
-
     return this.axios
       .create({
         baseURL: 'http://10.0.2.2:3333/api/1.0.0/',
