@@ -70,7 +70,7 @@ function UserUpdate() {
 
         if (err.response?.status === 400) {
           showMessage({
-            message: err.message,
+            message: 'The email is already taken!',
             type: 'danger',
             duration: 3000,
           });
