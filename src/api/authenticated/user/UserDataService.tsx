@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import createAxios from '../api';
 import { AuthData } from '../../../types/Types';
 import { User, UserUpdate } from '../../../interfaces/Interfaces';
@@ -8,10 +8,13 @@ import { User, UserUpdate } from '../../../interfaces/Interfaces';
  * @author Stephen
  */
 class UserDataService {
-  private axios!: AxiosInstance;
+  private https!: AxiosInstance;
+
+  private authData: { token: any; id?: number } | undefined;
 
   setAuth(authData: AuthData) {
-    this.axios = createAxios(authData);
+    this.https = createAxios(authData);
+    this.authData = authData;
   }
 
   /**
@@ -20,7 +23,7 @@ class UserDataService {
    * @returns
    */
   logout() {
-    return this.axios.post('logout');
+    return this.https.post('logout');
   }
 
   /**
@@ -29,10 +32,26 @@ class UserDataService {
    * @returns
    */
   getUser(user_id: number) {
-    if (this.axios === undefined) {
+    if (this.https === undefined) {
       throw new Error('Set the Auth data');
     }
-    return this.axios.get<Array<User>>(`user/${user_id}`);
+    return this.https.get<Array<User>>(`user/${user_id}`);
+  }
+
+  /**
+   *
+   * @param user_id
+   * @returns
+   */
+  postPhoto(user_id: number, blob, media: string) {
+    return fetch(`http://10.0.2.2:3333/api/1.0.0/user/${user_id}/photo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': media,
+        'X-Authorization': this.authData?.token,
+      },
+      body: blob,
+    });
   }
 
   /**
@@ -41,10 +60,11 @@ class UserDataService {
    * @returns
    */
   updateUser(userUpdate: UserUpdate, user_id: number) {
-    if (this.axios === undefined) {
+    if (this.https === undefined) {
       throw new Error('Set the Auth data');
     }
-    return this.axios.patch<Array<User>>(`user/${user_id}`, userUpdate);
+
+    return this.https.patch<Array<User>>(`user/${user_id}`, userUpdate);
   }
 }
 export default new UserDataService();

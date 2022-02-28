@@ -1,8 +1,8 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Avatar, Button, Text } from 'react-native-paper';
 import UserDataService from '../api/authenticated/user/UserDataService';
@@ -13,10 +13,7 @@ import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { SettingStackParams } from '../types/Types';
 
-type UserUpdateScreenProp = StackNavigationProp<
-  SettingStackParams,
-  'Update Details'
->;
+type UserUpdateScreenProp = StackNavigationProp<SettingStackParams>;
 
 function Setting() {
   const auth = useAuth();
@@ -84,6 +81,10 @@ function Setting() {
         onPress={() => navigation.navigate('Update Details')}
       >
         Edit User Details
+      </Button>
+
+      <Button mode="outlined" onPress={() => navigation.navigate('Photo')}>
+        Add Photo
       </Button>
     </SafeAreaView>
   );
