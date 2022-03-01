@@ -16,10 +16,11 @@ import { SettingStackParams } from '../types/Types';
 type UserUpdateScreenProp = StackNavigationProp<SettingStackParams>;
 
 function Setting() {
-  const auth = useAuth();
-
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState();
+
+  const auth = useAuth();
+
   UserDataService.setAuth(auth.authData);
 
   const navigation = useNavigation<UserUpdateScreenProp>();

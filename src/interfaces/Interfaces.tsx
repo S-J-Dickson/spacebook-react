@@ -17,7 +17,6 @@ export interface User {
   last_name: string;
   email: string;
 }
-
 export interface UserUpdate {
   first_name: string;
   last_name: string;
