@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {
- SafeAreaView, useColorScheme, Text, Button 
-} from 'react-native';
+import { SafeAreaView, useColorScheme, Text, Button } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useAuth } from '../context/AuthContext';
@@ -17,8 +15,6 @@ function HomeScreen() {
   const auth = useAuth();
   const logoutUser = () => {
     auth.signOut();
-    console.log(auth);
-    console.log('logout uiser');
   };
 
   return (

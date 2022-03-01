@@ -1,8 +1,17 @@
+import { UserDetail } from '../interfaces/Interfaces';
+
 export type AuthContextData = {
   authData?: AuthData;
   loading: boolean;
   signIn(loginUser: LoginUser): Promise<void>;
   signOut(): void;
+  user: UserDetail;
+};
+
+export type User = {
+  first_name: string;
+  last_name: string;
+  email: string;
 };
 
 export type AuthData = {
@@ -19,10 +28,13 @@ export type RegisterResponse = {
   user_id: number;
 };
 
-// Can go in types file
 export type RootStackParams = {
   Login: undefined;
   Register: undefined;
+};
+
+export type SettingStackParams = {
+  Settings: undefined;
+  'Update Details': undefined;
   Photo: undefined;
-  Home: undefined;
 };

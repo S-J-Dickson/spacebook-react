@@ -4,9 +4,11 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import FlashMessage, { showMessage } from 'react-native-flash-message';
-import UserDataService from '../api/UserDataService';
+import LoginDataService from '../api/unauthenticated/LoginDataService';
+import UserDataService from '../api/authenticated/user/UserDataService';
 import { AuthContextData, AuthData, LoginUser } from '../types/Types';
 import checkNetwork from '../exceptions/CheckNetwork';
+import { UserDetail } from '../interfaces/Interfaces';
 
 // Create the Auth Context with the data type specified
 // and a empty object
@@ -14,6 +16,13 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 type Props = {
   children: React.ReactNode;
+};
+
+const user: UserDetail = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  friend_count: 0,
 };
 
 function AuthProvider({ children }: Props) {
@@ -49,7 +58,10 @@ function AuthProvider({ children }: Props) {
     // and send the user to the AuthStack
     // Persist the data in the Async Storage
     // to be recovered in the next user session.
-    UserDataService.login(loginUser)
+
+    console.log(loginUser);
+
+    LoginDataService.login(loginUser)
       .then((response: any) => {
         const authDataResponse: AuthData = {
           id: response.data.id,
@@ -69,7 +81,9 @@ function AuthProvider({ children }: Props) {
       .catch((err) => {
         checkNetwork(err.message);
 
-        if (err.response.status === 400) {
+        console.log(err.message);
+
+        if (err.response?.status === 400) {
           showMessage({
             message: 'Wrong email or password!',
             type: 'danger',
@@ -83,7 +97,8 @@ function AuthProvider({ children }: Props) {
     // Remove data from context, so the App can be notified
     // and send the user to the AuthStack
 
-    UserDataService.logout(authData);
+    UserDataService.setAuth(authData);
+    UserDataService.logout();
     setAuthData(undefined);
 
     // Remove the data from Async Storage
@@ -100,6 +115,7 @@ function AuthProvider({ children }: Props) {
         loading,
         signIn,
         signOut,
+        user,
       }}
     >
       {children}

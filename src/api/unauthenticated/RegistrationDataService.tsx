@@ -1,9 +1,9 @@
 import { showMessage } from 'react-native-flash-message';
 import { StackNavigationProp } from '@react-navigation/stack';
 import http from './api';
-import { UserRequest } from '../interfaces/Interfaces';
-import checkNetwork from '../exceptions/CheckNetwork';
-import { RegisterResponse, RootStackParams } from '../types/Types';
+import { UserRequest } from '../../interfaces/Interfaces';
+import checkNetwork from '../../exceptions/CheckNetwork';
+import { RegisterResponse, RootStackParams } from '../../types/Types';
 
 type LoginScreenProp = StackNavigationProp<RootStackParams, 'Login'>;
 

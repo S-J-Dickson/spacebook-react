@@ -1,37 +1,28 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable no-useless-escape */
-/* eslint-disable react/jsx-one-expression-per-line */
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
-import { SafeAreaView, useColorScheme, StyleSheet } from 'react-native';
-
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { useForm, Controller } from 'react-hook-form';
-import { HelperText, TextInput, Title, Button } from 'react-native-paper';
-
-import { RootStackParams } from '../types/Types';
-import { UserRequest } from '../interfaces/Interfaces';
-import RegistrationDataService from '../api/unauthenticated/RegistrationDataService';
+import { SafeAreaView } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
+import { TextInput } from 'react-native-gesture-handler';
+import { Button } from 'react-native-paper';
+import UserDataService from '../api/authenticated/user/UserDataService';
 import FormInput from '../components/FormInput';
+import { useAuth } from '../context/AuthContext';
+import checkNetwork from '../exceptions/CheckNetwork';
+import {
+  UserUpdate as UserUpdateInterface,
+  UserRequest,
+} from '../interfaces/Interfaces';
+import { SettingStackParams } from '../types/Types';
 
-type LoginScreenProp = StackNavigationProp<RootStackParams, 'Login'>;
+type SettingScreenProp = StackNavigationProp<SettingStackParams, 'Setting'>;
 
-const styles = StyleSheet.create({
-  input: {
-    marginVertical: 2,
-    height: 35,
-  },
-});
+function UserUpdate() {
+  const navigation = useNavigation<SettingScreenProp>();
 
-function RegisterScreen() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const auth = useAuth();
   const defaultValues: UserRequest = {
     first_name: '',
     last_name: '',
@@ -41,31 +32,55 @@ function RegisterScreen() {
   };
 
   const {
-    watch,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues,
   });
-
-  defaultValues.password = watch('password', '');
-
   const ERROR_MESSAGES = {
     REQUIRED: 'This field is required',
     EMAIL_INVALID: 'Not a valid email',
     PASSWORD_INVALID: 'Password needs to be 6 characters or larger',
   };
 
-  const navigation = useNavigation<LoginScreenProp>();
+  UserDataService.setAuth(auth.authData);
+  const { user } = auth;
 
   const onSubmit = (userRequest: UserRequest) => {
-    RegistrationDataService.createAccount(userRequest, navigation);
+    const updateUser: UserUpdateInterface = {
+      first_name: userRequest.first_name,
+      last_name: userRequest.last_name,
+      email: userRequest.email,
+      password: userRequest.password,
+    };
+
+    UserDataService.updateUser(updateUser, auth.authData?.id)
+      .then(() => {
+        showMessage({
+          message: 'Your details have been updated!',
+          type: 'success',
+          duration: 3000,
+        });
+
+        navigation.navigate('Settings');
+      })
+      .catch((err) => {
+        checkNetwork(err.message);
+
+        if (err.response?.status === 400) {
+          showMessage({
+            message: 'The email is already taken!',
+            type: 'danger',
+            duration: 3000,
+          });
+        }
+      });
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Title>Sign Up</Title>
+    <SafeAreaView>
+      <TextInput value={user.email} />
 
       <FormInput
         rules={{
@@ -78,6 +93,7 @@ function RegisterScreen() {
         errorMessage={errors.first_name?.message}
         error={errors.first_name}
         isSecureTextEntry={false}
+        value={user.first_name}
       />
       <FormInput
         rules={{
@@ -89,6 +105,7 @@ function RegisterScreen() {
         errorMessage={errors.last_name?.message}
         error={errors.last_name}
         isSecureTextEntry={false}
+        value={user.last_name}
       />
 
       <FormInput
@@ -107,13 +124,14 @@ function RegisterScreen() {
         errorMessage={errors.email?.message}
         error={errors.email}
         isSecureTextEntry={false}
+        value={user.email}
       />
 
       <FormInput
         rules={{
           required: { value: true, message: ERROR_MESSAGES.REQUIRED },
           minLength: {
-            value: 5,
+            value: 6,
             message: ERROR_MESSAGES.PASSWORD_INVALID,
           },
         }}
@@ -123,40 +141,14 @@ function RegisterScreen() {
         errorMessage={errors.password?.message}
         error={errors.password}
         isSecureTextEntry
+        value=""
       />
-      <Controller
-        control={control}
-        rules={{
-          required: { value: true, message: ERROR_MESSAGES.REQUIRED },
-          min: {
-            value: 6,
-            message: ERROR_MESSAGES.PASSWORD_INVALID,
-          },
-          validate: (value: string) =>
-            value === defaultValues.password || 'The passwords do not match',
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            secureTextEntry
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            mode="outlined"
-            placeholder="Repeat Password"
-          />
-        )}
-        name="password_repeat"
-      />
-      {errors.password_repeat && (
-        <HelperText type="error">{errors.password_repeat?.message} </HelperText>
-      )}
 
       <Button mode="outlined" onPress={handleSubmit(onSubmit)}>
-        Submit
+        Update Details
       </Button>
     </SafeAreaView>
   );
 }
 
-export default RegisterScreen;
+export default UserUpdate;

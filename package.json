@@ -12,22 +12,26 @@
     "dependencies": {
         "@react-native-async-storage/async-storage": "^1.16.1",
         "@react-native-community/masked-view": "^0.1.11",
+        "@react-navigation/bottom-tabs": "^6.2.0",
         "@react-navigation/native": "^6.0.8",
         "@react-navigation/native-stack": "^6.5.0",
         "@react-navigation/stack": "^6.1.1",
         "AsyncStorage": "^0.1.5",
         "axios": "^0.25.0",
+        "base-64": "^1.0.0",
         "jscodeshift": "^0.13.1",
         "react": "17.0.2",
         "react-hook-form": "^7.27.1",
         "react-native": "0.67.2",
         "react-native-flash-message": "^0.2.1",
         "react-native-gesture-handler": "^2.2.0",
+        "react-native-image-picker": "^4.7.3",
         "react-native-paper": "^4.11.2",
         "react-native-reanimated": "^2.4.1",
         "react-native-safe-area": "^0.5.1",
         "react-native-safe-area-context": "^3.3.2",
-        "react-native-screens": "^3.11.1"
+        "react-native-screens": "^3.11.1",
+        "rn-fetch-blob": "^0.12.0"
     },
     "devDependencies": {
         "@babel/core": "^7.12.9",
