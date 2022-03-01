@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
+import RNFetchBlob from 'rn-fetch-blob';
 import createAxios from '../api';
 import { AuthData } from '../../../types/Types';
 import { User, UserUpdate } from '../../../interfaces/Interfaces';
-
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service
 /**
  * @author Stephen
@@ -36,6 +36,21 @@ class UserDataService {
       throw new Error('Set the Auth data');
     }
     return this.https.get<Array<User>>(`user/${user_id}`);
+  }
+
+  /**
+   *
+   * @param user_id
+   * @returns
+   */
+  getUserPhoto(user_id: number) {
+    return RNFetchBlob.fetch(
+      'GET',
+      `http://10.0.2.2:3333/api/1.0.0/user/${user_id}/photo`,
+      {
+        'X-Authorization': this.authData?.token,
+      }
+    );
   }
 
   /**

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView, Button } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Avatar } from 'react-native-paper';
-import { decode as atob, encode as btoa } from 'base-64';
+import { useFocusEffect } from '@react-navigation/native';
 import UserDataService from '../api/authenticated/user/UserDataService';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
@@ -13,7 +13,6 @@ type Photo = {
   base64: string;
   uri: string;
   type: string;
-  path: string;
 };
 
 function PhotoScreen() {
@@ -32,15 +31,62 @@ function PhotoScreen() {
     includeBase64: true,
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      // Do something when the screen is focused
+      UserDataService.getUserPhoto(auth.authData?.id)
+        .then((res) => {
+          const { status } = res.info();
+
+          if (status === 200) {
+            // the conversion is done in native code
+            const base64Str = res.base64();
+            // the following conversions are done in js, it's SYNC
+            const mediaType = res.info().headers['Content-Type'];
+
+            const serverBase64 = `data:${mediaType};base64,${base64Str}`;
+
+            const photoFromServer: Photo = {
+              base64: serverBase64,
+              uri: '',
+              type: '',
+            };
+
+            setPhoto(photoFromServer);
+          } else {
+            showMessage({
+              message: 'Error please report this issue to the helpdesk.',
+              type: 'danger',
+              duration: 3000,
+            });
+          }
+        })
+        // Something went wrong:
+        .catch((errorMessage) => {
+          showMessage({
+            message: errorMessage,
+            type: 'danger',
+            duration: 3000,
+          });
+        });
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        setPhoto([]);
+      };
+    }, [])
+  );
   const uploadImage = async (): Promise<void> => {
     const blob = await (await fetch(photo?.uri)).blob();
-    console.log(blob);
-    console.log(photo.uri);
 
     UserDataService.postPhoto(auth.authData?.id, blob, photo?.type)
       .then((response: any) => {
         // set data
-        console.log('its working');
+        showMessage({
+          message: 'Sucessfully saved photo.',
+          type: 'success',
+          duration: 3000,
+        });
       })
       .catch((err) => {
         checkNetwork(err.message);
@@ -80,8 +126,7 @@ function PhotoScreen() {
 
   return (
     <SafeAreaView>
-      {photo && <Avatar.Image size={250} source={{ uri: photo.uri }} />}
-
+      {photo && <Avatar.Image size={250} source={{ uri: photo.base64 }} />}
       <Button title="Select Photo" onPress={showImagePicker} />
       <Button title="Save Photo" onPress={uploadImage} />
     </SafeAreaView>
