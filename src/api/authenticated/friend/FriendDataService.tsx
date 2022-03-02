@@ -18,7 +18,34 @@ class FriendDataService {
 
   /**
    *
+   * @returns void
+   */
+  searchFriend(query: string) {
+    if (this.https === undefined) {
+      throw new Error('Set the Auth data');
+    }
+
+    const encoded = encodeURI(query);
+
+    return this.https.get(
+      `/search?q=${encoded}&search_in=all&limit=20&offset=0`
+    );
+  }
+
+  /**
+   *
    * @returns
+   */
+  getFriendList(user_id: number) {
+    if (this.https === undefined) {
+      throw new Error('Set the Auth data');
+    }
+    return this.https.get(`/user/${user_id}/friends`);
+  }
+
+  /**
+   *
+   * @returns void
    */
   getFriendRequest() {
     if (this.https === undefined) {
@@ -30,7 +57,7 @@ class FriendDataService {
   /**
    *
    * @param user_id
-   * @returns
+   * @returns void
    */
   declineFriendRequest(user_id: number) {
     if (this.https === undefined) {
@@ -47,11 +74,8 @@ class FriendDataService {
       })
       .catch((err) => {
         checkNetwork(err.message);
-
-        console.log(err);
-
         showMessage({
-          message: 'Error contact the helpdesk!',
+          message: err,
           type: 'danger',
           duration: 3000,
         });
@@ -61,7 +85,7 @@ class FriendDataService {
   /**
    *
    * @param user_id
-   * @returns
+   * @returns void
    */
   acceptFriendRequest(user_id: number) {
     if (this.https === undefined) {
@@ -82,6 +106,34 @@ class FriendDataService {
         showMessage({
           message: 'Error contact the helpdesk!',
           type: 'danger',
+          duration: 3000,
+        });
+      });
+  }
+
+  /**
+   *
+   * @param user_id
+   * @returns void
+   */
+  sendFriendRequest(user_id: number) {
+    if (this.https === undefined) {
+      throw new Error('Set the Auth data');
+    }
+    return this.https
+      .post(`/user/${user_id}/friends`)
+      .then((response: any) => {
+        showMessage({
+          message: 'Successfully, sent friend request!',
+          type: 'success',
+          duration: 3000,
+        });
+      })
+      .catch((err) => {
+        checkNetwork(err.message);
+        showMessage({
+          message: 'Friend request already sent to user!',
+          type: 'warning',
           duration: 3000,
         });
       });
