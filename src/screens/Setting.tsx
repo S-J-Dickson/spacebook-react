@@ -63,6 +63,10 @@ function Setting() {
     }, [])
   );
 
+  const logoutUser = () => {
+    auth.signOut();
+  };
+
   return (
     <SafeAreaView>
       <Avatar.Text size={48} label="XD" />
@@ -87,6 +91,8 @@ function Setting() {
       <Button mode="outlined" onPress={() => navigation.navigate('Photo')}>
         Add Photo
       </Button>
+
+      <Button onPress={logoutUser}>Logout</Button>
     </SafeAreaView>
   );
 }

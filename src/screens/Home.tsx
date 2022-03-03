@@ -1,26 +1,45 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 
-import { SafeAreaView, useColorScheme, Text, Button } from 'react-native';
+import {
+  SafeAreaView,
+  useColorScheme,
+  Text,
+  View,
+  StyleSheet,
+} from 'react-native';
+import { Button, Title } from 'react-native-paper';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useAuth } from '../context/AuthContext';
+import { PostStackParams } from '../types/Types';
 
+type PostScreenProp = StackNavigationProp<PostStackParams>;
 function HomeScreen() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const navigation = useNavigation<PostScreenProp>();
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  const auth = useAuth();
-  const logoutUser = () => {
-    auth.signOut();
-  };
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+  });
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Text> Home Screen yay</Text>
-      <Button title="Logout" onPress={logoutUser} />
+    <SafeAreaView>
+      <Title> Welcome to Spacebook</Title>
+
+      <View style={styles.container}>
+        <Text> Whats on your mind?</Text>
+        <Button
+          icon="post-outline"
+          mode="outlined"
+          onPress={() => navigation.navigate('Post')}
+        >
+          Post
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }

@@ -1,21 +1,14 @@
 import React from 'react';
 
-import { SafeAreaView, useColorScheme } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { Title } from 'react-native-paper';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+function Post() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <text>You are creating a post</text>
+    <SafeAreaView>
+      <Title>Creating a post</Title>
     </SafeAreaView>
   );
 }
 
-export default App;
+export default Post;

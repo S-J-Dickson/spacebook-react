@@ -38,3 +38,7 @@ export type SettingStackParams = {
   'Update Details': undefined;
   Photo: undefined;
 };
+
+export type PostStackParams = {
+  Post: undefined;
+};
