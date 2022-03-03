@@ -31,6 +31,13 @@ export interface UserDetail {
   friend_count: number;
 }
 
-export interface Post {
+export interface PostRequest {
   text: string;
+}
+export interface Post {
+  author: User;
+  numLikes: number;
+  post_id: number;
+  text: string;
+  timestamp: string;
 }

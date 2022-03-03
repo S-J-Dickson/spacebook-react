@@ -10,7 +10,7 @@ import PostDataService from '../api/authenticated/post/PostDataService';
 import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
-import { Post as PostInterface } from '../interfaces/Interfaces';
+import { PostRequest as PostInterface } from '../interfaces/Interfaces';
 import { PostStackParams } from '../types/Types';
 
 type HomeScreenProp = StackNavigationProp<PostStackParams>;
