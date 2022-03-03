@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Button, Searchbar } from 'react-native-paper';
+import { Button, Searchbar, Title } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
@@ -96,7 +96,7 @@ function Search() {
 
   return (
     <SafeAreaView>
-      <Text>Search for friends</Text>
+      <Title>Search For Friends</Title>
 
       <Searchbar
         placeholder="Search"

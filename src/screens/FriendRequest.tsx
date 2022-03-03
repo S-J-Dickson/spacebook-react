@@ -2,7 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Button } from 'react-native-paper';
+import { Button, Title } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
 import FriendRequestItem from '../components/FriendRequestItem';
 import { useAuth } from '../context/AuthContext';
@@ -48,7 +48,7 @@ function FriendRequest() {
   );
   return (
     <SafeAreaView>
-      <Text>Friends are here</Text>
+      <Title>Friend Requests</Title>
       {friendItems &&
         friendItems?.map((user, index) => (
           <FriendRequestItem
