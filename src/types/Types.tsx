@@ -42,4 +42,5 @@ export type SettingStackParams = {
 export type PostStackParams = {
   Post: undefined;
   'Home Feed': undefined;
+  'User Post': { post_id: number; user_id: number };
 };

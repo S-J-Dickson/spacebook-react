@@ -2,14 +2,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 
-import {
-  SafeAreaView,
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  StatusBar,
-} from 'react-native';
+import { SafeAreaView, Text, View, StyleSheet, FlatList } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import PostDataService from '../api/authenticated/post/PostDataService';
 import PostItem from '../components/PostItem';
@@ -48,8 +41,7 @@ function HomeScreen() {
           checkNetwork(err.message);
         });
       return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
+        setPosts(undefined);
       };
     }, [])
   );

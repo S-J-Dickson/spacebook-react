@@ -1,21 +1,54 @@
-import React from 'react';
+import { RouteProp, useFocusEffect, useRoute } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 
-import { SafeAreaView, useColorScheme } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
+import PostDataService from '../api/authenticated/post/PostDataService';
+import PostItem from '../components/PostItem';
+import { useAuth } from '../context/AuthContext';
+import checkNetwork from '../exceptions/CheckNetwork';
+import { Post } from '../interfaces/Interfaces';
+import { PostStackParams } from '../types/Types';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+type PostUserScreenRouteProp = RouteProp<PostStackParams, 'User Post'>;
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+function PostUser() {
+  const route = useRoute<PostUserScreenRouteProp>();
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const auth = useAuth();
+  PostDataService.setAuth(auth.authData);
+
+  const [post, setPost] = useState<Post>();
+
+  useFocusEffect(
+    useCallback(() => {
+      // Do something when the screen is focused
+      PostDataService.show(route.params.user_id, route.params.post_id)
+        .then((response: any) => {
+          // set data
+
+          console.log(response.data);
+
+          setPost(response.data);
+        })
+        .catch((err) => {
+          checkNetwork(err.message);
+        });
+      return () => {
+        // setPosts(undefined);
+      };
+    }, [])
+  );
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <text>Looking at a user post</text>
+    <SafeAreaView>
+      <Text>
+        Hi thee id is
+        {route.params.post_id}
+      </Text>
+
+      {post && <PostItem item={post} authData={auth.authData} />}
     </SafeAreaView>
   );
 }
 
-export default App;
+export default PostUser;
