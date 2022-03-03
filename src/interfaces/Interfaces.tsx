@@ -30,3 +30,7 @@ export interface UserDetail {
   email: string;
   friend_count: number;
 }
+
+export interface Post {
+  text: string;
+}

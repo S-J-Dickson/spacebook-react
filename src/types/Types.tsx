@@ -41,4 +41,5 @@ export type SettingStackParams = {
 
 export type PostStackParams = {
   Post: undefined;
+  'Home Feed': undefined;
 };

@@ -10,9 +10,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Button, Title } from 'react-native-paper';
-
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { useAuth } from '../context/AuthContext';
 import { PostStackParams } from '../types/Types';
 
 type PostScreenProp = StackNavigationProp<PostStackParams>;
@@ -37,7 +34,7 @@ function HomeScreen() {
           mode="outlined"
           onPress={() => navigation.navigate('Post')}
         >
-          Post
+          Create a post
         </Button>
       </View>
     </SafeAreaView>
