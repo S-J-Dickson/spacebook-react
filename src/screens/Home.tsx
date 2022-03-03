@@ -22,11 +22,15 @@ type PostScreenProp = StackNavigationProp<PostStackParams>;
 function HomeScreen() {
   const navigation = useNavigation<PostScreenProp>();
   const styles = StyleSheet.create({
-    container: {
+    header: {
       flexDirection: 'row',
       flexWrap: 'wrap',
     },
+    container: {
+      flex: 1,
+    },
   });
+
   const auth = useAuth();
   PostDataService.setAuth(auth.authData);
 
@@ -39,8 +43,6 @@ function HomeScreen() {
         .then((response: any) => {
           // set data
           setPosts(response.data);
-
-          console.log(response.data);
         })
         .catch((err) => {
           checkNetwork(err.message);
@@ -52,10 +54,10 @@ function HomeScreen() {
     }, [])
   );
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Title> Welcome to Spacebook</Title>
 
-      <View style={styles.container}>
+      <View style={styles.header}>
         <Text> Whats on your mind?</Text>
         <Button
           icon="post-outline"
@@ -66,13 +68,13 @@ function HomeScreen() {
         </Button>
       </View>
 
-      <View>
-        <FlatList
-          data={posts}
-          keyExtractor={(post) => `${post.post_id}`}
-          renderItem={PostItem}
-        />
-      </View>
+      <FlatList
+        data={posts}
+        keyExtractor={(post) => `${post.post_id}`}
+        renderItem={({ item }) => (
+          <PostItem item={item} authData={auth.authData} />
+        )}
+      />
     </SafeAreaView>
   );
 }
