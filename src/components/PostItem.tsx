@@ -11,7 +11,7 @@ import { PostStackParams } from '../types/Types';
 
 type PostItemProp = {
   item: Post;
-  authData: object | undefined;
+  authData: any | undefined;
 };
 
 type PostScreenProp = StackNavigationProp<PostStackParams>;
@@ -56,7 +56,7 @@ export default function PostItem(props: PostItemProp) {
     }
 
     PostDataService.like(authData.id, item.post_id)
-      .then((response: any) => {
+      .then(() => {
         // set data
         const newLikeCount = likeCount + 1;
         setLikeCount(newLikeCount);

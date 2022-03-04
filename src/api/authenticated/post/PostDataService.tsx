@@ -1,3 +1,4 @@
+import { AxiosInstance } from 'axios';
 import createAxios from '../api';
 import { AuthData } from '../../../types/Types';
 import { PostRequest } from '../../../interfaces/Interfaces';
@@ -10,7 +11,7 @@ class PostDataService {
 
   private authData: { token: any; id?: number } | undefined;
 
-  setAuth(authData: AuthData) {
+  setAuth(authData: AuthData | undefined) {
     this.https = createAxios(authData);
   }
 

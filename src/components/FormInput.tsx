@@ -6,7 +6,7 @@ import { HelperText, TextInput } from 'react-native-paper';
 
 interface FormInputProps {
   rules: object;
-  control: Control;
+  control: Control | any;
   name: string;
   placeHolder: string;
   errorMessage: string | undefined;

@@ -43,5 +43,9 @@ export type PostStackParams = {
   Post: undefined;
   'Home Feed': undefined;
   'User Post': { post_id: number; user_id: number };
-  'Post Update': { post_id: number; user_id: number; text: string };
+  'Editing Post': {
+    post_id: number | undefined;
+    user_id: number | undefined;
+    text: string | undefined;
+  };
 };

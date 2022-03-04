@@ -60,7 +60,11 @@ function UserPost() {
     },
   });
   const editPost = () => {
-    console.log('sas');
+    navigation.push('Editing Post', {
+      post_id: post?.post_id,
+      user_id: post?.author.user_id,
+      text: post?.text,
+    });
   };
   const deletePost = () => {
     // Do something when the screen is focused
