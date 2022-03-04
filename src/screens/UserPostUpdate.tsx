@@ -1,24 +1,40 @@
-import { useNavigation } from '@react-navigation/native';
+/* eslint-disable @typescript-eslint/comma-dangle */
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Button, Title } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import PostDataService from '../api/authenticated/post/PostDataService';
 import FormInput from '../components/FormInput';
-import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
-import { PostRequest as PostInterface } from '../interfaces/Interfaces';
 import { PostStackParams } from '../types/Types';
 
-type HomeScreenProp = StackNavigationProp<PostStackParams>;
+import { PostRequest as PostInterface } from '../interfaces/Interfaces';
+import { useAuth } from '../context/AuthContext';
 
-function Post() {
+type PostUserScreenRouteProp = RouteProp<PostStackParams, 'Editing Post'>;
+
+type UserPostScreenProp = StackNavigationProp<PostStackParams>;
+
+function UserPostUpdate() {
+  const navigation = useNavigation<UserPostScreenProp>();
+
+  const route = useRoute<PostUserScreenRouteProp>();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+  });
+
   const defaultValues: PostInterface = {
-    text: '',
+    text: route.params.text,
   };
+
+  const auth = useAuth();
 
   const {
     control,
@@ -31,30 +47,33 @@ function Post() {
   const ERROR_MESSAGES = {
     REQUIRED: 'This field is required',
   };
-
-  const auth = useAuth();
-
-  const navigation = useNavigation<HomeScreenProp>();
-
   PostDataService.setAuth(auth.authData);
 
   const onSubmit = (postRequest: PostInterface) => {
-    PostDataService.store(auth.authData?.id, postRequest)
+    PostDataService.update(
+      route.params.user_id,
+      route.params.post_id,
+      postRequest
+    )
       .then(() => {
         showMessage({
-          message: 'Post has been created!',
+          message: 'Post has been updated!',
           type: 'success',
           duration: 3000,
         });
-        navigation.navigate('Home Feed');
+
+        // const postId = route.params.post_id;
+        // const userId = route.params.user_id;
+        navigation.goBack();
       })
-      .catch((err) => {
+      .catch((err: any) => {
         checkNetwork(err.message);
       });
   };
+
   return (
-    <SafeAreaView>
-      <Title>Creating a post</Title>
+    <SafeAreaView style={styles.container}>
+      <Text>Editing user</Text>
 
       <FormInput
         rules={{
@@ -74,10 +93,10 @@ function Post() {
         mode="outlined"
         onPress={handleSubmit(onSubmit)}
       >
-        Submit Post
+        Update Post
       </Button>
     </SafeAreaView>
   );
 }
 
-export default Post;
+export default UserPostUpdate;

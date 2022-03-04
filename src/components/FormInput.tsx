@@ -1,12 +1,12 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
-import { UserRequest } from '../interfaces/Interfaces';
 
 interface FormInputProps {
   rules: object;
-  control: Control<UserRequest>;
+  control: Control | any;
   name: string;
   placeHolder: string;
   errorMessage: string | undefined;

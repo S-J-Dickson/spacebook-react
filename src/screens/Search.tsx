@@ -111,10 +111,7 @@ function Search() {
             <Text>{item.user_givenname}</Text>
             <Text>{item.user_familyname}</Text>
             <Text>{item.user_email}</Text>
-            <Button onPress={() => addFriend(item.user_id)}>
-              {' '}
-              Add Friend{' '}
-            </Button>
+            <Button onPress={() => addFriend(item.user_id)}>Add Friend</Button>
           </View>
         )}
         keyExtractor={(item) => `${item.user_id}`}

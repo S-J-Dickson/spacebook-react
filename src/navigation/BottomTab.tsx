@@ -2,15 +2,18 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SettingStack from './SettingStack';
 import FriendStack from './FriendTopTab';
-
-import HomeScreen from '../screens/Home';
+import PostStack from './PostStack';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTab() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen
+        name="Home"
+        options={{ headerShown: false }}
+        component={PostStack}
+      />
       <Tab.Screen
         name="Friend Management"
         options={{ headerShown: false }}

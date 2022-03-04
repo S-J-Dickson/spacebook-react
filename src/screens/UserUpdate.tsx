@@ -23,11 +23,13 @@ function UserUpdate() {
   const navigation = useNavigation<SettingScreenProp>();
 
   const auth = useAuth();
+  const { user } = auth;
+
   const defaultValues: UserRequest = {
-    first_name: '',
-    last_name: '',
+    first_name: user.first_name,
+    last_name: user.last_name,
     password: '',
-    email: '',
+    email: user.email,
     password_repeat: '',
   };
 
@@ -45,7 +47,6 @@ function UserUpdate() {
   };
 
   UserDataService.setAuth(auth.authData);
-  const { user } = auth;
 
   const onSubmit = (userRequest: UserRequest) => {
     const updateUser: UserUpdateInterface = {
@@ -93,7 +94,6 @@ function UserUpdate() {
         errorMessage={errors.first_name?.message}
         error={errors.first_name}
         isSecureTextEntry={false}
-        value={user.first_name}
       />
       <FormInput
         rules={{
@@ -105,7 +105,6 @@ function UserUpdate() {
         errorMessage={errors.last_name?.message}
         error={errors.last_name}
         isSecureTextEntry={false}
-        value={user.last_name}
       />
 
       <FormInput
@@ -124,7 +123,6 @@ function UserUpdate() {
         errorMessage={errors.email?.message}
         error={errors.email}
         isSecureTextEntry={false}
-        value={user.email}
       />
 
       <FormInput
@@ -141,7 +139,6 @@ function UserUpdate() {
         errorMessage={errors.password?.message}
         error={errors.password}
         isSecureTextEntry
-        value=""
       />
 
       <Button mode="outlined" onPress={handleSubmit(onSubmit)}>
