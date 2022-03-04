@@ -58,9 +58,6 @@ function AuthProvider({ children }: Props) {
     // and send the user to the AuthStack
     // Persist the data in the Async Storage
     // to be recovered in the next user session.
-
-    console.log(loginUser);
-
     LoginDataService.login(loginUser)
       .then((response: any) => {
         const authDataResponse: AuthData = {

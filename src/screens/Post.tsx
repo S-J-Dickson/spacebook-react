@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Button, Title } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PostDataService from '../api/authenticated/post/PostDataService';
 import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
@@ -52,6 +53,19 @@ function Post() {
         checkNetwork(err.message);
       });
   };
+
+  const createDraft = async (postRequest: PostInterface) => {
+    const postsFromStorage = await AsyncStorage.getItem('@Posts');
+    const data = JSON.parse(postsFromStorage);
+
+    let allPosts = [postRequest].concat(data);
+
+    allPosts = allPosts.filter((el) => el != null);
+
+    AsyncStorage.removeItem('@Posts');
+    AsyncStorage.setItem('@Posts', JSON.stringify(allPosts));
+  };
+
   return (
     <SafeAreaView>
       <Title>Creating a post</Title>
@@ -69,6 +83,13 @@ function Post() {
         isSecureTextEntry={false}
       />
 
+      <Button
+        icon="post-outline"
+        mode="outlined"
+        onPress={handleSubmit(createDraft)}
+      >
+        Create Draft
+      </Button>
       <Button
         icon="post-outline"
         mode="outlined"
