@@ -1,4 +1,4 @@
-import { UserDetail } from '../interfaces/Interfaces';
+import { Post, UserDetail } from '../interfaces/Interfaces';
 
 export type AuthContextData = {
   authData?: AuthData;
@@ -47,5 +47,8 @@ export type PostStackParams = {
     post_id: number | undefined;
     user_id: number | undefined;
     text: string | undefined;
+  };
+  'Friend Feed': {
+    posts: [] | [Post];
   };
 };

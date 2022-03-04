@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
@@ -39,7 +38,6 @@ function HomeScreen() {
       let friendPostArray = friendPosts;
       friendPostArray.length = 0;
       setFriendPosts(friendPostArray);
-
       friendPostArray = friendPosts;
       PostDataService.index(auth.authData?.id)
         .then((response: any) => {
@@ -85,11 +83,12 @@ function HomeScreen() {
       };
     }, [])
   );
-  const sortAllPosts = () => {
-    // const allPosts = friendPosts.concat(posts);
-    // return allPosts;
+  const seeFriendPost = () => {
+    let allPosts = friendPosts;
 
-    console.log(friendPosts);
+    allPosts = allPosts.sort((a, b) => b.post_id - a.post_id);
+
+    navigation.navigate('Friend Feed', { posts: allPosts });
   };
 
   return (
@@ -97,7 +96,6 @@ function HomeScreen() {
       <Title> Welcome to Spacebook</Title>
 
       <View style={styles.header}>
-        <Text> Whats on your mind?</Text>
         <Button
           icon="post-outline"
           mode="outlined"
@@ -106,10 +104,11 @@ function HomeScreen() {
           Create a post
         </Button>
 
-        <Button icon="post-outline" mode="outlined" onPress={sortAllPosts}>
-          Create a post
+        <Button icon="post-outline" onPress={seeFriendPost}>
+          View Friend Posts
         </Button>
       </View>
+      <Text>Here are your posts</Text>
 
       <FlatList
         data={posts}
@@ -117,6 +116,7 @@ function HomeScreen() {
         renderItem={({ item }) => (
           <PostItem item={item} authData={auth.authData} />
         )}
+        initialNumToRender={50}
       />
     </SafeAreaView>
   );
