@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
-import { useAuth } from '../context/AuthContext';
 import { User } from '../interfaces/Interfaces';
 
 type RequestItemProp = {
