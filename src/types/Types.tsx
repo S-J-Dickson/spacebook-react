@@ -51,4 +51,5 @@ export type PostStackParams = {
   'Friend Feed': {
     posts: [] | [Post];
   };
+  'Post Draft': undefined;
 };

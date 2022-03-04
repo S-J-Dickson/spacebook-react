@@ -59,11 +59,18 @@ function Post() {
     const data = JSON.parse(postsFromStorage);
 
     let allPosts = [postRequest].concat(data);
-
     allPosts = allPosts.filter((el) => el != null);
 
     AsyncStorage.removeItem('@Posts');
     AsyncStorage.setItem('@Posts', JSON.stringify(allPosts));
+
+    showMessage({
+      message: 'Post draft has been created!',
+      type: 'success',
+      duration: 3000,
+    });
+
+    navigation.navigate('Post Draft');
   };
 
   return (
@@ -82,6 +89,16 @@ function Post() {
         error={errors.text}
         isSecureTextEntry={false}
       />
+
+      <Button
+        icon="post-outline"
+        mode="outlined"
+        onPress={() => {
+          navigation.push('Post Draft');
+        }}
+      >
+        View Drafts
+      </Button>
 
       <Button
         icon="post-outline"
