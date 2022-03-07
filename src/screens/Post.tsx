@@ -80,29 +80,31 @@ function Post() {
   PostDataService.setAuth(auth.authData);
 
   const onSubmit = async (postRequest: PostInterface) => {
-    if (isEditing) {
-      const postsFromStorage = await AsyncStorage.getItem('@Posts');
-      const data = JSON.parse(postsFromStorage);
-
-      const updatedPosts = data.filter(
-        (x: DraftPost) => x.draft_id !== route.params.draft_post.draft_id
-      );
-      AsyncStorage.setItem('@Posts', JSON.stringify(updatedPosts));
-    }
-
     PostDataService.store(auth.authData?.id, postRequest)
-      .then(() => {
+      .then(async () => {
         showMessage({
           message: 'Post has been created!',
           type: 'success',
           duration: 3000,
         });
+
+        if (isEditing) {
+          const postsFromStorage = await AsyncStorage.getItem('@Posts');
+          const data = JSON.parse(postsFromStorage);
+
+          const updatedPosts = data.filter(
+            (x: DraftPost) => x.draft_id !== route.params.draft_post.draft_id
+          );
+          AsyncStorage.setItem('@Posts', JSON.stringify(updatedPosts));
+        }
+
         navigation.navigate('Home Feed');
       })
       .catch((err) => {
         checkNetwork(err.message);
       });
   };
+
   const schedulePost = async (postRequest: PostInterface) => {
     const postsFromStorage = await AsyncStorage.getItem('@Posts');
     const data = JSON.parse(postsFromStorage);

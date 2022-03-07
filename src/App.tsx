@@ -4,12 +4,54 @@ import BackgroundFetch from 'react-native-background-fetch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Router } from './navigation/Router';
 import { AuthProvider } from './context/AuthContext';
+import { DraftPost } from './interfaces/Interfaces';
+import PostDataService from './api/authenticated/post/PostDataService';
+import checkNetwork from './exceptions/CheckNetwork';
+import { AuthData } from './types/Types';
 
 class App extends React.Component {
   componentDidMount() {
     // Initialize BackgroundFetch ONLY ONCE when component mounts.
     this.initBackgroundFetch();
   }
+
+  addEvent = async (taskId) => {
+    const postsFromStorage = await AsyncStorage.getItem('@Posts');
+    const data = JSON.parse(postsFromStorage);
+    const date = Date.now();
+    const authDataSerialized = await AsyncStorage.getItem('@AuthData');
+
+    console.log(data);
+
+    if (authDataSerialized) {
+      const authData: AuthData = JSON.parse(authDataSerialized);
+      if (data) {
+        const scheduledPosts = data.filter(
+          (x: DraftPost) => x.is_scheduled === true
+        );
+
+        scheduledPosts.map((post: DraftPost) => {
+          const postDate = Date.parse(post.time_to_post);
+
+          if (date > postDate) {
+            console.log('Send post request');
+
+            PostDataService.setAuth(authData);
+            PostDataService.store(authData?.id, post)
+              .then(async () => {
+                const updatedPosts = data.filter(
+                  (x: DraftPost) => x.draft_id !== post.draft_id
+                );
+                AsyncStorage.setItem('@Posts', JSON.stringify(updatedPosts));
+              })
+              .catch((err) => {
+                checkNetwork(err.message);
+              });
+          }
+        });
+      }
+    }
+  };
 
   async initBackgroundFetch() {
     // BackgroundFetch event handler.
@@ -36,15 +78,6 @@ class App extends React.Component {
     );
 
     console.log('[BackgroundFetch] configure status: ', status);
-  }
-
-  // Add a BackgroundFetch event to <FlatList>
-  async addEvent(taskId) {
-    console.log('doing task');
-    const postsFromStorage = await AsyncStorage.getItem('@Posts');
-    const data = JSON.parse(postsFromStorage);
-
-    console.log(data);
   }
 
   render() {
