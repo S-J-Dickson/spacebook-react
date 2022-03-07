@@ -34,6 +34,14 @@ export interface UserDetail {
 export interface PostRequest {
   text: string;
 }
+
+export interface DraftPost {
+  draft_id: string | number[];
+  text: string;
+  is_scheduled: boolean;
+  time_to_post: string | undefined;
+}
+
 export interface Post {
   author: User;
   numLikes: number;

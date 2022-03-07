@@ -7,11 +7,15 @@ import { SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Button, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
 import PostDataService from '../api/authenticated/post/PostDataService';
 import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
-import { PostRequest as PostInterface } from '../interfaces/Interfaces';
+import {
+  DraftPost,
+  PostRequest as PostInterface,
+} from '../interfaces/Interfaces';
 import { PostStackParams } from '../types/Types';
 
 type HomeScreenProp = StackNavigationProp<PostStackParams>;
@@ -55,13 +59,19 @@ function Post() {
   };
 
   const createDraft = async (postRequest: PostInterface) => {
+    const draftPost: DraftPost = {
+      draft_id: uuid.v4(),
+      text: postRequest.text,
+      is_scheduled: false,
+      time_to_post: undefined,
+    };
+
     const postsFromStorage = await AsyncStorage.getItem('@Posts');
     const data = JSON.parse(postsFromStorage);
 
-    let allPosts = [postRequest].concat(data);
+    let allPosts = [draftPost].concat(data);
     allPosts = allPosts.filter((el) => el != null);
 
-    AsyncStorage.removeItem('@Posts');
     AsyncStorage.setItem('@Posts', JSON.stringify(allPosts));
 
     showMessage({
