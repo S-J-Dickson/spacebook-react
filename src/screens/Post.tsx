@@ -10,9 +10,7 @@ import { useForm } from 'react-hook-form';
 
 import { SafeAreaView, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import {
- Button, Switch, Text, Title 
-} from 'react-native-paper';
+import { Button, Switch, Text, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import DatePicker from 'react-native-date-picker';
@@ -46,13 +44,18 @@ function Post() {
       // Do something when the screen is focused
       if (route?.params?.draft_post !== undefined) {
         setIsEditing(true);
+
+        if (route?.params?.draft_post.is_scheduled) {
+          setDate(new Date(route?.params?.draft_post.time_to_post));
+        }
+        setIsSwitchOn(route?.params?.draft_post.is_scheduled);
       }
 
       return () => {
         setIsEditing(false);
         setIsSwitchOn(false);
       };
-    }, []),
+    }, [])
   );
 
   const defaultValues: PostInterface = {
@@ -82,7 +85,7 @@ function Post() {
       const data = JSON.parse(postsFromStorage);
 
       const updatedPosts = data.filter(
-        (x: DraftPost) => x.draft_id !== route.params.draft_post.draft_id,
+        (x: DraftPost) => x.draft_id !== route.params.draft_post.draft_id
       );
       AsyncStorage.setItem('@Posts', JSON.stringify(updatedPosts));
     }
@@ -115,7 +118,7 @@ function Post() {
       };
       // Remove post that is being updated
       const updatedPost = data.filter(
-        (x: DraftPost) => x.draft_id !== draftPost.draft_id,
+        (x: DraftPost) => x.draft_id !== draftPost.draft_id
       );
 
       allPosts = [draftPost].concat(updatedPost);
@@ -179,7 +182,7 @@ function Post() {
 
     // Remove post that is being updated
     const updatedPost = data.filter(
-      (x: DraftPost) => x.draft_id !== draftPost.draft_id,
+      (x: DraftPost) => x.draft_id !== draftPost.draft_id
     );
 
     const allPosts = [draftPost].concat(updatedPost);
