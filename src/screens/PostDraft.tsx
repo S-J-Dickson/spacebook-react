@@ -1,12 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 
-import { FlatList, SafeAreaView, View } from 'react-native';
-import { Text, Title } from 'react-native-paper';
+import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Button, Text, Title } from 'react-native-paper';
+import PostDraftItem from '../components/PostDraftItem';
+import { DraftPost } from '../interfaces/Interfaces';
+import { PostStackParams } from '../types/Types';
 
+type DraftScreenProp = StackNavigationProp<PostStackParams>;
 function PostDraft() {
-  const [draftPost, setDraftPost] = useState();
+  const [draftPost, setDraftPost] = useState<[DraftPost]>();
+
+  const navigation = useNavigation<DraftScreenProp>();
 
   useFocusEffect(
     useCallback(
@@ -25,14 +32,30 @@ function PostDraft() {
       []
     )
   );
+  const updateDraftPost = (updatedDraftPost: undefined | [DraftPost]) => {
+    setDraftPost(updatedDraftPost);
+  };
+
+  const styles = StyleSheet.create({
+    header: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    },
+    container: {
+      flex: 1,
+    },
+  });
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <Title>Viewing draft posts</Title>
-
       <FlatList
         data={draftPost}
-        renderItem={({ item }) => <Text>{item.text}</Text>}
+        keyExtractor={(post) => `${post.draft_id}`}
+        renderItem={({ item }) => (
+          <PostDraftItem item={item} updateDraftPost={updateDraftPost} />
+        )}
+        initialNumToRender={50}
       />
     </SafeAreaView>
   );

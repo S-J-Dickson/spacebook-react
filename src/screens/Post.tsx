@@ -18,7 +18,7 @@ import {
 } from '../interfaces/Interfaces';
 import { PostStackParams } from '../types/Types';
 
-type HomeScreenProp = StackNavigationProp<PostStackParams>;
+type PostScreenProp = StackNavigationProp<PostStackParams>;
 
 function Post() {
   const defaultValues: PostInterface = {
@@ -39,7 +39,7 @@ function Post() {
 
   const auth = useAuth();
 
-  const navigation = useNavigation<HomeScreenProp>();
+  const navigation = useNavigation<PostScreenProp>();
 
   PostDataService.setAuth(auth.authData);
 
@@ -80,7 +80,7 @@ function Post() {
       duration: 3000,
     });
 
-    navigation.navigate('Post Draft');
+    navigation.navigate('Home Feed');
   };
 
   return (
