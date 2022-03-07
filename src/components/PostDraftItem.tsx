@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { ContinousBaseGesture } from 'react-native-gesture-handler/lib/typescript/handlers/gestures/gesture';
 import { Button, Text } from 'react-native-paper';
 import { DraftPost } from '../interfaces/Interfaces';
 import { PostStackParams } from '../types/Types';
@@ -37,7 +36,9 @@ export default function PostDraftItem(props: PostDraftItemProp) {
     },
   });
 
-  const editDraft = () => {};
+  const editDraft = () => {
+    navigation.push('Post', { draft_post: item });
+  };
 
   const deleteDraft = async () => {
     const postsFromStorage = await AsyncStorage.getItem('@Posts');
