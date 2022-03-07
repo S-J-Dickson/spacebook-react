@@ -24,6 +24,7 @@
         "react": "17.0.2",
         "react-hook-form": "^7.27.1",
         "react-native": "0.67.2",
+        "react-native-background-task": "^0.2.1",
         "react-native-date-picker": "^4.2.0",
         "react-native-flash-message": "^0.2.1",
         "react-native-gesture-handler": "^2.2.0",
