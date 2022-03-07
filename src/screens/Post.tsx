@@ -66,7 +66,17 @@ function Post() {
   const navigation = useNavigation<PostScreenProp>();
   PostDataService.setAuth(auth.authData);
 
-  const onSubmit = (postRequest: PostInterface) => {
+  const onSubmit = async (postRequest: PostInterface) => {
+    if (isEditing) {
+      const postsFromStorage = await AsyncStorage.getItem('@Posts');
+      const data = JSON.parse(postsFromStorage);
+
+      const updatedPosts = data.filter(
+        (x: DraftPost) => x.draft_id !== route.params.draft_post.draft_id
+      );
+      AsyncStorage.setItem('@Posts', JSON.stringify(updatedPosts));
+    }
+
     PostDataService.store(auth.authData?.id, postRequest)
       .then(() => {
         showMessage({
