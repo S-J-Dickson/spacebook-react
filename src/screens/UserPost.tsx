@@ -69,7 +69,7 @@ function UserPost() {
   const deletePost = () => {
     // Do something when the screen is focused
     PostDataService.delete(post.author.user_id, post.post_id)
-      .then((response: any) => {
+      .then(() => {
         navigation.navigate('Home Feed');
         showMessage({
           message: 'Post was successfully deleted.',

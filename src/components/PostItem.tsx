@@ -55,20 +55,21 @@ export default function PostItem(props: PostItemProp) {
       return;
     }
 
-    PostDataService.like(authData.id, item.post_id)
+    PostDataService.like(item.author.user_id, item.post_id)
       .then(() => {
         // set data
         const newLikeCount = likeCount + 1;
         setLikeCount(newLikeCount);
       })
       .catch((err) => {
+        if (err.response.status) {
+          PostDataService.unLike(item.author.user_id, item.post_id).then(() => {
+            // set data
+            const newLikeCount = likeCount - 1;
+            setLikeCount(newLikeCount);
+          });
+        }
         checkNetwork(err.message);
-
-        showMessage({
-          message: err.message,
-          type: 'danger',
-          duration: 3000,
-        });
       });
   };
 

@@ -1,4 +1,4 @@
-import { UserDetail } from '../interfaces/Interfaces';
+import { DraftPost, Post, UserDetail } from '../interfaces/Interfaces';
 
 export type AuthContextData = {
   authData?: AuthData;
@@ -40,7 +40,9 @@ export type SettingStackParams = {
 };
 
 export type PostStackParams = {
-  Post: undefined;
+  Post: {
+    draft_post: undefined | DraftPost;
+  };
   'Home Feed': undefined;
   'User Post': { post_id: number; user_id: number };
   'Editing Post': {
@@ -48,4 +50,8 @@ export type PostStackParams = {
     user_id: number | undefined;
     text: string | undefined;
   };
+  'Friend Feed': {
+    posts: [] | [Post];
+  };
+  'Post Draft': undefined;
 };
