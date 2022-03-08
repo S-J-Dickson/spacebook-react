@@ -1,15 +1,17 @@
+/* eslint-disable object-curly-newline */
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
 import { User } from '../interfaces/Interfaces';
+import { AuthData } from '../types/Types';
 import UserHeader from './UserHeader';
 
 type RequestItemProp = {
   user: User;
   index: number;
   removeFriendItem(index: number): void;
-  authData: object | undefined;
+  authData: AuthData | undefined;
 };
 
 export default function FriendRequestItem(props: RequestItemProp) {

@@ -11,7 +11,7 @@ class FriendDataService {
 
   private authData: { token: any; id?: number } | undefined;
 
-  setAuth(authData: AuthData) {
+  setAuth(authData: AuthData | undefined) {
     this.https = createAxios(authData);
     this.authData = authData;
   }

@@ -9,7 +9,7 @@ import { PostStackParams } from '../types/Types';
 
 type PostDraftItemProp = {
   item: DraftPost;
-  updateDraftPost: ([]) => {};
+  updateDraftPost: () => {};
 };
 
 type DraftScreenProp = StackNavigationProp<PostStackParams>;

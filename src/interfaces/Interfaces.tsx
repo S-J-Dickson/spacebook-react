@@ -39,7 +39,7 @@ export interface DraftPost {
   draft_id: string | number[];
   text: string;
   is_scheduled: boolean;
-  time_to_post: Date | undefined;
+  time_to_post: Date | undefined | string;
 }
 
 export interface Post {
