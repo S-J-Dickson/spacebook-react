@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { showMessage } from 'react-native-flash-message';
-import createAxios from '../api';
+import createAxios from '../Api';
 import { AuthData } from '../../../types/Types';
 import checkNetwork from '../../../exceptions/CheckNetwork';
 /**

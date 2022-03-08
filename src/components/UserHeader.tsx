@@ -6,13 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Avatar, Text } from 'react-native-paper';
 import UserDataService from '../api/authenticated/user/UserDataService';
-import { User } from '../interfaces/Interfaces';
 import { Photo as PhotoType } from '../types/Types';
-
-type UserHeaderProp = {
-  item: User;
-  authData: any | undefined;
-};
 
 export default function UserHeader(props: UserHeaderProp) {
   const { item, authData } = props;

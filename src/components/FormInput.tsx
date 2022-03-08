@@ -1,18 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
-
-interface FormInputProps {
-  rules: object;
-  control: Control | any;
-  name: string;
-  placeHolder: string;
-  errorMessage: string | undefined;
-  error: object | undefined;
-  isSecureTextEntry: boolean;
-}
+import { FormInputProps } from '../interfaces/Interfaces';
 
 export default function FormInput(formInputProps: FormInputProps) {
   const styles = StyleSheet.create({

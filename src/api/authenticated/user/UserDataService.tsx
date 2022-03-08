@@ -1,6 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
 import RNFetchBlob from 'rn-fetch-blob';
-import createAxios from '../api';
+import createAxios from '../Api';
 import { AuthData } from '../../../types/Types';
 import { User, UserUpdate } from '../../../interfaces/Interfaces';
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service

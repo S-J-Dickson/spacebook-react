@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import createAxios from '../api';
+import createAxios from '../Api';
 import { AuthData } from '../../../types/Types';
 import { PostRequest } from '../../../interfaces/Interfaces';
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service

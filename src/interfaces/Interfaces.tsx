@@ -1,3 +1,5 @@
+import { Control } from 'react-hook-form';
+
 export interface UserLogin {
   user_id: number;
   session_token: string;
@@ -48,4 +50,13 @@ export interface Post {
   post_id: number;
   text: string;
   timestamp: string;
+}
+export interface FormInputProps {
+  rules: object;
+  control: Control | any;
+  name: string;
+  placeHolder: string;
+  errorMessage: string | undefined;
+  error: object | undefined;
+  isSecureTextEntry: boolean;
 }

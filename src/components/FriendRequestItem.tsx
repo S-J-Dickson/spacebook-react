@@ -3,16 +3,8 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
-import { User } from '../interfaces/Interfaces';
-import { AuthData } from '../types/Types';
+import { RequestItemProp } from '../types/Types';
 import UserHeader from './UserHeader';
-
-type RequestItemProp = {
-  user: User;
-  index: number;
-  removeFriendItem(index: number): void;
-  authData: AuthData | undefined;
-};
 
 export default function FriendRequestItem(props: RequestItemProp) {
   const { user, index, removeFriendItem, authData } = props;

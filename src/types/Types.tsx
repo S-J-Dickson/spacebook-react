@@ -1,3 +1,4 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import { DraftPost, Post, UserDetail } from '../interfaces/Interfaces';
 
 export type AuthContextData = {
@@ -60,4 +61,29 @@ export type PostStackParams = {
     posts: [] | [Post];
   };
   'Post Draft': undefined;
+};
+
+export type RequestItemProp = {
+  user: User;
+  index: number;
+  removeFriendItem(index: number): void;
+  authData: AuthData | undefined;
+};
+export type PostDraftItemProp = {
+  item: DraftPost;
+  updateDraftPost: () => {};
+};
+
+export type DraftScreenProp = StackNavigationProp<PostStackParams>;
+
+export type PostItemProp = {
+  item: Post;
+  authData: any | undefined;
+};
+
+export type PostScreenProp = StackNavigationProp<PostStackParams>;
+
+export type UserHeaderProp = {
+  item: User;
+  authData: any | undefined;
 };
