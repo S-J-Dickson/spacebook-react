@@ -1,5 +1,7 @@
+/* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SettingStack from './SettingStack';
 import FriendStack from './FriendTopTab';
 import PostStack from './PostStack';
@@ -11,18 +13,47 @@ export default function BottomTab() {
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
-        options={{ headerShown: false }}
         component={PostStack}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="home-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Friend Management"
-        options={{ headerShown: false }}
         component={FriendStack}
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Friend Management',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="account-multiple-plus-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingStack}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="cog-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
   );
