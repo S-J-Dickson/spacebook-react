@@ -7,10 +7,18 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  Pressable,
+} from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Avatar, Button } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import PostDataService from '../api/authenticated/post/PostDataService';
+import UserHeader from '../components/UserHeader';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { Post } from '../interfaces/Interfaces';
@@ -30,6 +38,9 @@ function UserPost() {
   const [isOwner, setIsOwner] = useState<boolean>();
 
   const [post, setPost] = useState<Post>();
+
+  const [modalVisible, setModalVisible] = useState(false);
+
   useFocusEffect(
     useCallback(() => {
       // Do something when the screen is focused
@@ -84,17 +95,51 @@ function UserPost() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* TODO: USE POST COMPONENET */}
+      <Modal
+        animationType="slide"
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <View>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.textStyle}>Show Modal</Text>
+        </Pressable>
+      </View>
+
       {post && (
         <>
           <View>
-            <Avatar.Text size={24} label={post.author.first_name} />
-            <Text> </Text>
-            <Text>{post.author.first_name}</Text>
-            <Text> </Text>
-            <Text>{post.author.last_name}</Text>
+            <UserHeader
+              item={{
+                user_id: post.author.user_id,
+                first_name: post.author.first_name,
+                last_name: post.author.last_name,
+                email: post.author.email,
+              }}
+              authData={auth.authData}
+            />
           </View>
           <View>
+            <Text> </Text>
             <Text> </Text>
             <Text>{post.text}</Text>
           </View>
@@ -116,15 +161,6 @@ function UserPost() {
               </Button>
             </View>
           )}
-          {/* Like componenet created here */}
-          {/* <TouchableOpacity onPress={likePost}>
-            <View style={styles.container}>
-              <Text>{likeCount}</Text>
-
-              <Text> </Text>
-              <Avatar.Icon icon="thumb-up" size={18} color="#fff" />
-            </View>
-          </TouchableOpacity> */}
         </>
       )}
     </SafeAreaView>

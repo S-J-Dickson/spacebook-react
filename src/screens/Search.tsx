@@ -43,8 +43,6 @@ function Search() {
             ({ user_id }) => !userIds.includes(user_id)
           );
           setSearchResults(filterFriendList);
-
-          console.log(filterFriendList);
         }
       })
       .catch((err) => {
