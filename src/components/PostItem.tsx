@@ -8,6 +8,7 @@ import PostDataService from '../api/authenticated/post/PostDataService';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { Post } from '../interfaces/Interfaces';
 import { PostStackParams } from '../types/Types';
+import UserHeader from './UserHeader';
 
 type PostItemProp = {
   item: Post;
@@ -83,11 +84,15 @@ export default function PostItem(props: PostItemProp) {
     <TouchableOpacity onPress={viewPost}>
       <View style={styles.post}>
         <View style={styles.container}>
-          <Avatar.Text size={24} label={item.author.first_name} />
-          <Text> </Text>
-          <Text>{item.author.first_name}</Text>
-          <Text> </Text>
-          <Text>{item.author.last_name}</Text>
+          <UserHeader
+            item={{
+              user_id: item.author.user_id,
+              first_name: item.author.first_name,
+              last_name: item.author.last_name,
+              email: item.author.email,
+            }}
+            authData={authData}
+          />
         </View>
         <View style={styles.holder}>
           <Text> </Text>
