@@ -7,14 +7,7 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  Pressable,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Button } from 'react-native-paper';
 import PostDataService from '../api/authenticated/post/PostDataService';
@@ -38,9 +31,6 @@ function UserPost() {
   const [isOwner, setIsOwner] = useState<boolean>();
 
   const [post, setPost] = useState<Post>();
-
-  const [modalVisible, setModalVisible] = useState(false);
-
   useFocusEffect(
     useCallback(() => {
       // Do something when the screen is focused
@@ -95,36 +85,6 @@ function UserPost() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-
-      <View>
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={styles.textStyle}>Show Modal</Text>
-        </Pressable>
-      </View>
-
       {post && (
         <>
           <View>

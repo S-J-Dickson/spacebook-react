@@ -18,7 +18,6 @@ function Search() {
   const [searchResults, setSearchResults] = useState(undefined);
 
   const auth = useAuth();
-
   FriendDataService.setAuth(auth.authData);
   const styles = StyleSheet.create({
     container: {
