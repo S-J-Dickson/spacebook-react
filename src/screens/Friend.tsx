@@ -63,13 +63,6 @@ function Friend() {
       <FlatList
         data={friendList}
         renderItem={({ item }) => (
-          // <View style={styles.container}>
-          //   <Text>{item.user_givenname}</Text>
-          //   <Text> </Text>
-          //   <Text>{item.user_familyname}</Text>
-          //   <Text> </Text>
-          //   <Text>{item.user_email}</Text>
-          // </View>
           <UserHeader
             item={{
               user_id: item.user_id,

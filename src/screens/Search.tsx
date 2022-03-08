@@ -5,6 +5,7 @@ import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Button, Searchbar, Title } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
+import UserHeader from '../components/UserHeader';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { User } from '../interfaces/Interfaces';
@@ -80,10 +81,8 @@ function Search() {
     }, [])
   );
   const removeFriendItem = (user_id: number) => {
-    // const friendItemsCopy: [User] = [...friendItems];
-
     const searchResultUpdated = searchResults.filter(
-      (result) => result.user_id != user_id
+      (result) => result.user_id !== user_id
     );
 
     setSearchResults(searchResultUpdated);
@@ -108,9 +107,15 @@ function Search() {
         data={searchResults}
         renderItem={({ item }) => (
           <View style={styles.container}>
-            <Text>{item.user_givenname}</Text>
-            <Text>{item.user_familyname}</Text>
-            <Text>{item.user_email}</Text>
+            <UserHeader
+              item={{
+                user_id: item.user_id,
+                first_name: item.user_givenname,
+                last_name: item.user_familyname,
+                email: item.user_email,
+              }}
+              authData={auth.authData}
+            />
             <Button onPress={() => addFriend(item.user_id)}>Add Friend</Button>
           </View>
         )}
