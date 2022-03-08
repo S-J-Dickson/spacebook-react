@@ -11,7 +11,7 @@ class UserDataService {
 
   private authData: { token: any; id?: number } | undefined;
 
-  setAuth(authData: AuthData) {
+  setAuth(authData: AuthData | undefined) {
     this.https = createAxios(authData);
     this.authData = authData;
   }
@@ -76,7 +76,7 @@ class UserDataService {
    * @param user_id
    * @returns
    */
-  updateUser(userUpdate: UserUpdate, user_id: number) {
+  updateUser(userUpdate: UserUpdate, user_id: number | undefined) {
     if (this.https === undefined) {
       throw new Error('Set the Auth data');
     }

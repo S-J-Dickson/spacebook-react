@@ -1,18 +1,16 @@
 /* eslint-disable no-useless-escape */
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 
 import { SafeAreaView, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
 import { Button, Title } from 'react-native-paper';
-import { LoginUser, RootStackParams } from '../types/Types';
+import { LoginUser, RegisterScreenProp } from '../types/Types';
 import { useAuth } from '../context/AuthContext';
 import FormInput from '../components/FormInput';
 import { UserRequest } from '../interfaces/Interfaces';
 
-type RegisterScreenProp = StackNavigationProp<RootStackParams, 'Register'>;
 function LoginScreen() {
   const navigation = useNavigation<RegisterScreenProp>();
 

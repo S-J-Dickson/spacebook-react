@@ -1,12 +1,11 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
 
 import { SafeAreaView, StyleSheet, FlatList } from 'react-native';
 import PostItem from '../components/PostItem';
 import { useAuth } from '../context/AuthContext';
-import { PostStackParams } from '../types/Types';
+import { FriendFeedScreenRouteProp } from '../types/Types';
 
-type FriendFeedScreenRouteProp = RouteProp<PostStackParams, 'Friend Feed'>;
 function FriendFeed() {
   const route = useRoute<FriendFeedScreenRouteProp>();
   const auth = useAuth();

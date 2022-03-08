@@ -56,7 +56,7 @@ class PostDataService {
    * @param user_id
    * @returns
    */
-  delete(user_id: number, post_id: number) {
+  delete(user_id: number | undefined, post_id: number | undefined) {
     if (this.https === undefined) {
       throw new Error('Set the Auth data');
     }

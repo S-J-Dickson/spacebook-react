@@ -78,8 +78,6 @@ function AuthProvider({ children }: Props) {
       .catch((err) => {
         checkNetwork(err.message);
 
-        console.log(err.message);
-
         if (err.response?.status === 400) {
           showMessage({
             message: 'Wrong email or password!',
