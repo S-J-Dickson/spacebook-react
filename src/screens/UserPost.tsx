@@ -9,8 +9,9 @@ import React, { useCallback, useState } from 'react';
 
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Avatar, Button } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import PostDataService from '../api/authenticated/post/PostDataService';
+import UserHeader from '../components/UserHeader';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { Post } from '../interfaces/Interfaces';
@@ -84,17 +85,21 @@ function UserPost() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* TODO: USE POST COMPONENET */}
       {post && (
         <>
           <View>
-            <Avatar.Text size={24} label={post.author.first_name} />
-            <Text> </Text>
-            <Text>{post.author.first_name}</Text>
-            <Text> </Text>
-            <Text>{post.author.last_name}</Text>
+            <UserHeader
+              item={{
+                user_id: post.author.user_id,
+                first_name: post.author.first_name,
+                last_name: post.author.last_name,
+                email: post.author.email,
+              }}
+              authData={auth.authData}
+            />
           </View>
           <View>
+            <Text> </Text>
             <Text> </Text>
             <Text>{post.text}</Text>
           </View>
@@ -116,15 +121,6 @@ function UserPost() {
               </Button>
             </View>
           )}
-          {/* Like componenet created here */}
-          {/* <TouchableOpacity onPress={likePost}>
-            <View style={styles.container}>
-              <Text>{likeCount}</Text>
-
-              <Text> </Text>
-              <Avatar.Icon icon="thumb-up" size={18} color="#fff" />
-            </View>
-          </TouchableOpacity> */}
         </>
       )}
     </SafeAreaView>

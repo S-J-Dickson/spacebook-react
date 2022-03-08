@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
 import { User } from '../interfaces/Interfaces';
+import UserHeader from './UserHeader';
 
 type RequestItemProp = {
   user: User;
@@ -35,9 +36,7 @@ export default function FriendRequestItem(props: RequestItemProp) {
 
   return (
     <View style={styles.container}>
-      {/* Image here */}
-      <Text> {user.first_name} </Text>
-      <Text> {user.last_name} </Text>
+      <UserHeader item={user} authData={authData} />
       <Button onPress={() => declineFriendRequest()}> Decline </Button>
       <Button onPress={() => acceptFriendRequest()}> Accept </Button>
     </View>

@@ -69,7 +69,6 @@ function Setting() {
 
   return (
     <SafeAreaView>
-      <Avatar.Text size={48} label="XD" />
       {isLoading ? (
         <Text>Loading...</Text>
       ) : (
@@ -77,7 +76,6 @@ function Setting() {
           first_name={data.first_name}
           last_name={data.last_name}
           email={data.email}
-          friend_count={data.friend_count}
         />
       )}
 

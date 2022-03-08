@@ -1,22 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { SafeAreaView, Button } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 
 import { launchImageLibrary } from 'react-native-image-picker';
-import { Avatar } from 'react-native-paper';
+import { Avatar, Button } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import UserDataService from '../api/authenticated/user/UserDataService';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
-
-type Photo = {
-  base64: string;
-  uri: string;
-  type: string;
-};
+import { Photo as PhotoType } from '../types/Types';
 
 function PhotoScreen() {
-  const [photo, setPhoto] = useState<Photo | undefined>(undefined);
+  const [photo, setPhoto] = useState<PhotoType | undefined>(undefined);
 
   const auth = useAuth();
   UserDataService.setAuth(auth.authData);
@@ -46,7 +41,7 @@ function PhotoScreen() {
 
             const serverBase64 = `data:${mediaType};base64,${base64Str}`;
 
-            const photoFromServer: Photo = {
+            const photoFromServer: PhotoType = {
               base64: serverBase64,
               uri: '',
               type: '',
@@ -113,7 +108,7 @@ function PhotoScreen() {
       } else {
         const base64 = `data:${response.assets[0].type};base64,${response.assets[0].base64}`;
 
-        const photoGallery: Photo = {
+        const photoGallery: PhotoType = {
           base64,
           uri: response.assets[0].uri,
           type: response.assets[0].type,
@@ -127,8 +122,8 @@ function PhotoScreen() {
   return (
     <SafeAreaView>
       {photo && <Avatar.Image size={250} source={{ uri: photo.base64 }} />}
-      <Button title="Select Photo" onPress={showImagePicker} />
-      <Button title="Save Photo" onPress={uploadImage} />
+      <Button onPress={showImagePicker}> Select Photo</Button>
+      <Button onPress={uploadImage}> Save Photo</Button>
     </SafeAreaView>
   );
 }

@@ -39,6 +39,12 @@ export type SettingStackParams = {
   Photo: undefined;
 };
 
+export type Photo = {
+  base64: string;
+  uri: string;
+  type: string;
+};
+
 export type PostStackParams = {
   Post: {
     draft_post: undefined | DraftPost;

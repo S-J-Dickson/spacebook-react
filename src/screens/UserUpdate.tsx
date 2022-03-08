@@ -81,8 +81,6 @@ function UserUpdate() {
 
   return (
     <SafeAreaView>
-      <TextInput value={user.email} />
-
       <FormInput
         rules={{
           required: { value: true, message: ERROR_MESSAGES.REQUIRED },

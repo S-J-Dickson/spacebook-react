@@ -1,8 +1,8 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Button, Title } from 'react-native-paper';
+import { Title } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
 import FriendRequestItem from '../components/FriendRequestItem';
 import { useAuth } from '../context/AuthContext';
@@ -49,16 +49,19 @@ function FriendRequest() {
   return (
     <SafeAreaView>
       <Title>Friend Requests</Title>
-      {friendItems &&
-        friendItems?.map((user, index) => (
+      <FlatList
+        data={friendItems}
+        renderItem={({ item, index }) => (
           <FriendRequestItem
-            user={user}
+            user={item}
             removeFriendItem={removeFriendItem}
             index={index}
             authData={auth.authData}
-            key={user.user_id}
+            key={item.user_id}
           />
-        ))}
+        )}
+        keyExtractor={(item) => `${item.user_id}`}
+      />
     </SafeAreaView>
   );
 }
