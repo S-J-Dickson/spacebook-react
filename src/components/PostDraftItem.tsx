@@ -16,8 +16,10 @@ type DraftScreenProp = StackNavigationProp<PostStackParams>;
 
 export default function PostDraftItem(props: PostDraftItemProp) {
   const navigation = useNavigation<DraftScreenProp>();
-
   const { item, updateDraftPost } = props;
+
+  const humanDate = new Date(Date.parse(item.time_to_post));
+
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'row',
@@ -59,6 +61,13 @@ export default function PostDraftItem(props: PostDraftItemProp) {
         <View style={styles.holder}>
           <Text>{item.text}</Text>
         </View>
+
+        <View style={styles.holder}>
+          <Text />
+          {item.is_scheduled && <Text>Post is scheduled for</Text>}
+          {item.is_scheduled && <Text>{humanDate.toUTCString()}</Text>}
+        </View>
+
         <Button onPress={deleteDraft} icon="delete-outline">
           Delete
         </Button>

@@ -8,11 +8,12 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Button, Title } from 'react-native-paper';
+import { Button, Switch, Text, Title } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
+import DatePicker from 'react-native-date-picker';
 import PostDataService from '../api/authenticated/post/PostDataService';
 import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
@@ -31,17 +32,29 @@ function Post() {
 
   const [isEditing, setIsEditing] = useState(false);
 
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const minimumDate = new Date(Date.now());
+
+  const [date, setDate] = useState(new Date());
+
   useFocusEffect(
     useCallback(() => {
       // Do something when the screen is focused
-      console.log(route?.params);
-      console.log(route?.params?.draft_post?.text);
-
       if (route?.params?.draft_post !== undefined) {
         setIsEditing(true);
+
+        if (route?.params?.draft_post.is_scheduled) {
+          setDate(new Date(route?.params?.draft_post.time_to_post));
+        }
+        setIsSwitchOn(route?.params?.draft_post.is_scheduled);
       }
 
-      return () => {};
+      return () => {
+        setIsEditing(false);
+        setIsSwitchOn(false);
+      };
     }, [])
   );
 
@@ -67,28 +80,70 @@ function Post() {
   PostDataService.setAuth(auth.authData);
 
   const onSubmit = async (postRequest: PostInterface) => {
-    if (isEditing) {
-      const postsFromStorage = await AsyncStorage.getItem('@Posts');
-      const data = JSON.parse(postsFromStorage);
-
-      const updatedPosts = data.filter(
-        (x: DraftPost) => x.draft_id !== route.params.draft_post.draft_id
-      );
-      AsyncStorage.setItem('@Posts', JSON.stringify(updatedPosts));
-    }
-
     PostDataService.store(auth.authData?.id, postRequest)
-      .then(() => {
+      .then(async () => {
         showMessage({
           message: 'Post has been created!',
           type: 'success',
           duration: 3000,
         });
+
+        if (isEditing) {
+          const postsFromStorage = await AsyncStorage.getItem('@Posts');
+          const data = JSON.parse(postsFromStorage);
+
+          const updatedPosts = data.filter(
+            (x: DraftPost) => x.draft_id !== route.params.draft_post.draft_id
+          );
+          AsyncStorage.setItem('@Posts', JSON.stringify(updatedPosts));
+        }
+
         navigation.navigate('Home Feed');
       })
       .catch((err) => {
         checkNetwork(err.message);
       });
+  };
+
+  const schedulePost = async (postRequest: PostInterface) => {
+    const postsFromStorage = await AsyncStorage.getItem('@Posts');
+    const data = JSON.parse(postsFromStorage);
+
+    let allPosts;
+
+    if (isEditing) {
+      const draftPost: DraftPost = {
+        draft_id: route.params.draft_post?.draft_id,
+        text: postRequest.text,
+        is_scheduled: true,
+        time_to_post: date,
+      };
+      // Remove post that is being updated
+      const updatedPost = data.filter(
+        (x: DraftPost) => x.draft_id !== draftPost.draft_id
+      );
+
+      allPosts = [draftPost].concat(updatedPost);
+    } else {
+      const draftPost: DraftPost = {
+        draft_id: uuid.v4(),
+        text: postRequest.text,
+        is_scheduled: true,
+        time_to_post: date,
+      };
+
+      allPosts = [draftPost].concat(data);
+    }
+
+    AsyncStorage.setItem('@Posts', JSON.stringify(allPosts));
+
+    showMessage({
+      message: 'Post has been scheduled!',
+      type: 'success',
+      duration: 3000,
+    });
+
+    navigation.navigate('Home Feed');
   };
 
   const createDraft = async (postRequest: PostInterface) => {
@@ -162,7 +217,20 @@ function Post() {
         isSecureTextEntry={false}
       />
 
-      {!isEditing && (
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        <Text>Schedule the post?</Text>
+        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+      </View>
+
+      {isSwitchOn && (
+        <DatePicker
+          minimumDate={minimumDate}
+          date={date}
+          onDateChange={setDate}
+        />
+      )}
+
+      {!isEditing && !isSwitchOn && (
         <Button
           icon="post-outline"
           mode="outlined"
@@ -173,7 +241,8 @@ function Post() {
           View Drafts
         </Button>
       )}
-      {!isEditing && (
+
+      {!isEditing && !isSwitchOn && (
         <Button
           icon="post-outline"
           mode="outlined"
@@ -182,8 +251,7 @@ function Post() {
           Create Draft
         </Button>
       )}
-
-      {isEditing && (
+      {isEditing && !isSwitchOn && (
         <Button
           icon="post-outline"
           mode="outlined"
@@ -193,13 +261,25 @@ function Post() {
         </Button>
       )}
 
-      <Button
-        icon="post-outline"
-        mode="outlined"
-        onPress={handleSubmit(onSubmit)}
-      >
-        Submit Post
-      </Button>
+      {!isSwitchOn && (
+        <Button
+          icon="post-outline"
+          mode="outlined"
+          onPress={handleSubmit(onSubmit)}
+        >
+          Submit Post
+        </Button>
+      )}
+
+      {isSwitchOn && (
+        <Button
+          icon="post-outline"
+          mode="outlined"
+          onPress={handleSubmit(schedulePost)}
+        >
+          Schedule Post
+        </Button>
+      )}
     </SafeAreaView>
   );
 }
