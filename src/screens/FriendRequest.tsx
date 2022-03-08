@@ -1,8 +1,8 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { FlatList, SafeAreaView, Text, View } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Button, Title } from 'react-native-paper';
+import { Title } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
 import FriendRequestItem from '../components/FriendRequestItem';
 import { useAuth } from '../context/AuthContext';

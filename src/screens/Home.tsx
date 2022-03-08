@@ -63,7 +63,6 @@ function HomeScreen() {
               })
               .catch((err) => {
                 checkNetwork(err.message);
-                console.log(err);
               });
           });
         })

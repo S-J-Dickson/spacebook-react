@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Avatar, Text } from 'react-native-paper';
@@ -34,45 +35,52 @@ export default function UserHeader(props: UserHeaderProp) {
     },
   });
 
-  useEffect(() => {
-    UserDataService.setAuth(authData);
-    UserDataService.getUserPhoto(authData?.id)
-      .then((res) => {
-        const { status } = res.info();
+  UserDataService.setAuth(authData);
 
-        if (status === 200) {
-          // the conversion is done in native code
-          const base64Str = res.base64();
-          // the following conversions are done in js, it's SYNC
-          const mediaType = res.info().headers['Content-Type'];
+  useFocusEffect(
+    useCallback(() => {
+      // Do something when the screen is focused
+      UserDataService.getUserPhoto(item.user_id)
+        .then((res) => {
+          const { status } = res.info();
 
-          const serverBase64 = `data:${mediaType};base64,${base64Str}`;
+          if (status === 200) {
+            // the conversion is done in native code
+            const base64Str = res.base64();
+            // the following conversions are done in js, it's SYNC
+            const mediaType = res.info().headers['Content-Type'];
 
-          const photoFromServer: PhotoType = {
-            base64: serverBase64,
-            uri: '',
-            type: '',
-          };
+            const serverBase64 = `data:${mediaType};base64,${base64Str}`;
 
-          setPhoto(photoFromServer);
-        } else {
+            const photoFromServer: PhotoType = {
+              base64: serverBase64,
+              uri: '',
+              type: '',
+            };
+
+            setPhoto(photoFromServer);
+          } else {
+            showMessage({
+              message: 'Error please report this issue to the helpdesk.',
+              type: 'danger',
+              duration: 3000,
+            });
+          }
+        })
+        // Something went wrong:
+        .catch((errorMessage) => {
           showMessage({
-            message: 'Error please report this issue to the helpdesk.',
+            message: errorMessage,
             type: 'danger',
             duration: 3000,
           });
-        }
-      })
-      // Something went wrong:
-      .catch((errorMessage) => {
-        showMessage({
-          message: errorMessage,
-          type: 'danger',
-          duration: 3000,
         });
-      });
-    return () => {};
-  });
+
+      return () => {
+        setPhoto(undefined);
+      };
+    }, [])
+  );
 
   return (
     <View style={styles.container}>

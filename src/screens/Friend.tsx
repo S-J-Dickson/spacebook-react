@@ -56,6 +56,7 @@ function Friend() {
       };
     }, [])
   );
+
   return (
     <SafeAreaView>
       <Title>Friend List</Title>
