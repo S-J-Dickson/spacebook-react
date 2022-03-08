@@ -69,7 +69,6 @@ function Setting() {
 
   return (
     <SafeAreaView>
-      <Avatar.Text size={48} label="XD" />
       {isLoading ? (
         <Text>Loading...</Text>
       ) : (

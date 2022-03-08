@@ -44,6 +44,9 @@ class UserDataService {
    * @returns
    */
   getUserPhoto(user_id: number) {
+    if (this.https === undefined) {
+      throw new Error('Set the Auth data');
+    }
     return RNFetchBlob.fetch(
       'GET',
       `http://10.0.2.2:3333/api/1.0.0/user/${user_id}/photo`,
