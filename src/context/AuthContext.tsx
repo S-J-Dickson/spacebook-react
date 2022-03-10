@@ -24,20 +24,15 @@ const user: UserDetail = {
   email: '',
   friend_count: 0,
 };
-
 function AuthProvider({ children }: Props) {
   const [authData, setAuthData] = useState<AuthData>();
 
-  // the AuthContext start with loading equals true
-  // and stay like this, until the data be load from Async Storage
   const [loading, setLoading] = useState(true);
 
   async function loadStorageData(): Promise<void> {
     try {
-      // Try get the data from Async Storage
       const authDataSerialized = await AsyncStorage.getItem('@AuthData');
       if (authDataSerialized) {
-        // If there are data, it's converted to an Object and the state is updated.
         const data: AuthData = JSON.parse(authDataSerialized);
         setAuthData(data);
       }
@@ -48,16 +43,10 @@ function AuthProvider({ children }: Props) {
   }
 
   useEffect(() => {
-    // Every time the App is opened, this provider is rendered
-    // and call de loadStorage function.
     loadStorageData();
   }, []);
 
   const signIn = async (loginUser: LoginUser) => {
-    // Set the data in the context, so the App can be notified
-    // and send the user to the AuthStack
-    // Persist the data in the Async Storage
-    // to be recovered in the next user session.
     LoginDataService.login(loginUser)
       .then((response: any) => {
         const authDataResponse: AuthData = {
@@ -89,21 +78,14 @@ function AuthProvider({ children }: Props) {
   };
 
   const signOut = async () => {
-    // Remove data from context, so the App can be notified
-    // and send the user to the AuthStack
-
     UserDataService.setAuth(authData);
     UserDataService.logout();
     setAuthData(undefined);
 
-    // Remove the data from Async Storage
-    // to NOT be recoverede in next session.
     await AsyncStorage.removeItem('@AuthData');
   };
 
   return (
-    // This component will be used to encapsulate the whole App,
-    // so all components will have access to the Context
     <AuthContext.Provider
       value={{
         authData,
@@ -119,8 +101,6 @@ function AuthProvider({ children }: Props) {
   );
 }
 
-// A simple hooks to facilitate the access to the AuthContext
-// and permit components to subscribe to AuthContext updates
 function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
