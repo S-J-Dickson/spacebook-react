@@ -3,6 +3,15 @@
 ## Info
 The app was built on Linux ubuntu 20.04 using [react native cli](https://reactnative.dev/docs/enviroanment-setup), not Expo! This is because Linux provides an easier way to install and manage development dependencies like java, android studio and node.
 
+I decided to use Typescript to help prevent runtime errors and improve code readability. 
+
+To improve this project, I would change all the API calls to use 'fetch' instead of Axios. I decided to use Axios to create classes for user management, friend management and so on to stop repeating code. However, the API call photo forced me to switch to fetch as the incorrect image blob was being sent to the server.
+
+Another improvement for this project would create unit testing and end to end testing; however, this was not in the scope of this project. 
+
+[MAD 21-22 Assignment Spec v1 [VERIFIED].pdf](https://github.com/S-DICKSON/spacebook-react/files/8226198/MAD.21-22.Assignment.Spec.v1.VERIFIED.pdf)
+
+
 ## Repositories
 - https://github.com/S-DICKSON/spacebook-react
 - https://github.com/S-DICKSON/Spacebook
