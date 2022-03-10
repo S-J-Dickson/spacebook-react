@@ -3,6 +3,10 @@
 ## Info
 The app was built on Linux ubuntu 20.04 using [react native cli](https://reactnative.dev/docs/enviroanment-setup), not Expo! This is because Linux provides an easier way to install and manage development dependencies like java, android studio and node.
 
+## Repositories
+- https://github.com/S-DICKSON/spacebook-react
+- https://github.com/S-DICKSON/Spacebook
+
 
 ## Comands
 
