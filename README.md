@@ -1,7 +1,7 @@
 # spacebook-react
 
 ## Info
-The app was built on Linux ubuntu 20.04 using [react native cli], not Expo! This is because Linux provides an easier way to install and manage development dependencies like java, android studio and node.
+The app was built on Linux ubuntu 20.04 using react native cli, not Expo! This is because Linux provides an easier way to install and manage development dependencies like java, android studio and node.
 
 I decided to use Typescript to help prevent runtime errors and improve code readability. 
 
