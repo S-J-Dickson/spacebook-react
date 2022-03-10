@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable operator-linebreak */
+/* eslint-disable object-curly-newline */
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { AxiosInstance } from 'axios';
 import { showMessage } from 'react-native-flash-message';
-import createAxios from '../api';
+import createAxios from '../Api';
 import { AuthData } from '../../../types/Types';
 import checkNetwork from '../../../exceptions/CheckNetwork';
 /**
@@ -11,7 +17,7 @@ class FriendDataService {
 
   private authData: { token: any; id?: number } | undefined;
 
-  setAuth(authData: AuthData) {
+  setAuth(authData: AuthData | undefined) {
     this.https = createAxios(authData);
     this.authData = authData;
   }
@@ -36,7 +42,7 @@ class FriendDataService {
    *
    * @returns
    */
-  getFriendList(user_id: number) {
+  getFriendList(user_id: number | undefined) {
     if (this.https === undefined) {
       throw new Error('Set the Auth data');
     }

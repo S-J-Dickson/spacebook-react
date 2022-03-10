@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import createAxios from '../api';
+import createAxios from '../Api';
 import { AuthData } from '../../../types/Types';
 import { PostRequest } from '../../../interfaces/Interfaces';
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service
@@ -56,7 +56,7 @@ class PostDataService {
    * @param user_id
    * @returns
    */
-  delete(user_id: number, post_id: number) {
+  delete(user_id: number | undefined, post_id: number | undefined) {
     if (this.https === undefined) {
       throw new Error('Set the Auth data');
     }

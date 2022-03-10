@@ -1,10 +1,8 @@
 import {
-  RouteProp,
   useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -22,10 +20,7 @@ import {
   DraftPost,
   PostRequest as PostInterface,
 } from '../interfaces/Interfaces';
-import { PostStackParams } from '../types/Types';
-
-type PostScreenProp = StackNavigationProp<PostStackParams>;
-type PostScreenRouteProp = RouteProp<PostStackParams, 'Post'>;
+import { PostScreenProp, PostScreenRouteProp } from '../types/Types';
 
 function Post() {
   const route = useRoute<PostScreenRouteProp>();

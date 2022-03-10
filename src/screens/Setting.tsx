@@ -1,19 +1,21 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable object-curly-newline */
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 
 import { SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Avatar, Button, Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import UserDataService from '../api/authenticated/user/UserDataService';
 import UserDetail from '../components/UserDetail';
 import { UserDetail as UserDetailInterface } from '../interfaces/Interfaces';
 
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
-import { SettingStackParams } from '../types/Types';
-
-type UserUpdateScreenProp = StackNavigationProp<SettingStackParams>;
+import { UserUpdateScreenProp } from '../types/Types';
 
 function Setting() {
   const [isLoading, setLoading] = useState(true);

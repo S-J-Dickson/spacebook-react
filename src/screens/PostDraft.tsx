@@ -1,15 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 
-import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
-import { Button, Text, Title } from 'react-native-paper';
+import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { Title } from 'react-native-paper';
 import PostDraftItem from '../components/PostDraftItem';
 import { DraftPost } from '../interfaces/Interfaces';
-import { PostStackParams } from '../types/Types';
+import { DraftScreenProp } from '../types/Types';
 
-type DraftScreenProp = StackNavigationProp<PostStackParams>;
 function PostDraft() {
   const [draftPost, setDraftPost] = useState<[DraftPost]>();
 

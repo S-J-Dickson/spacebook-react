@@ -1,10 +1,12 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable object-curly-newline */
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
-  RouteProp,
   useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
@@ -15,11 +17,7 @@ import UserHeader from '../components/UserHeader';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { Post } from '../interfaces/Interfaces';
-import { PostStackParams } from '../types/Types';
-
-type PostUserScreenRouteProp = RouteProp<PostStackParams, 'User Post'>;
-
-type UserPostScreenProp = StackNavigationProp<PostStackParams>;
+import { UserPostScreenProp, PostUserScreenRouteProp } from '../types/Types';
 
 function UserPost() {
   const navigation = useNavigation<UserPostScreenProp>();
@@ -49,7 +47,7 @@ function UserPost() {
           checkNetwork(err.message);
         });
       return () => {
-        // setPosts(undefined);
+        setIsOwner(false);
       };
     }, [])
   );
@@ -69,7 +67,7 @@ function UserPost() {
   };
   const deletePost = () => {
     // Do something when the screen is focused
-    PostDataService.delete(post.author.user_id, post.post_id)
+    PostDataService.delete(post?.author.user_id, post?.post_id)
       .then(() => {
         navigation.navigate('Home Feed');
         showMessage({

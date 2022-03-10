@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/comma-dangle */
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -10,14 +9,10 @@ import { Button } from 'react-native-paper';
 import PostDataService from '../api/authenticated/post/PostDataService';
 import FormInput from '../components/FormInput';
 import checkNetwork from '../exceptions/CheckNetwork';
-import { PostStackParams } from '../types/Types';
+import { PostUserScreenRouteProp, UserPostScreenProp } from '../types/Types';
 
 import { PostRequest as PostInterface } from '../interfaces/Interfaces';
 import { useAuth } from '../context/AuthContext';
-
-type PostUserScreenRouteProp = RouteProp<PostStackParams, 'Editing Post'>;
-
-type UserPostScreenProp = StackNavigationProp<PostStackParams>;
 
 function UserPostUpdate() {
   const navigation = useNavigation<UserPostScreenProp>();

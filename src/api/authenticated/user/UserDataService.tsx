@@ -1,6 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
 import RNFetchBlob from 'rn-fetch-blob';
-import createAxios from '../api';
+import createAxios from '../Api';
 import { AuthData } from '../../../types/Types';
 import { User, UserUpdate } from '../../../interfaces/Interfaces';
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service
@@ -12,7 +11,7 @@ class UserDataService {
 
   private authData: { token: any; id?: number } | undefined;
 
-  setAuth(authData: AuthData) {
+  setAuth(authData: AuthData | undefined) {
     this.https = createAxios(authData);
     this.authData = authData;
   }
@@ -77,7 +76,7 @@ class UserDataService {
    * @param user_id
    * @returns
    */
-  updateUser(userUpdate: UserUpdate, user_id: number) {
+  updateUser(userUpdate: UserUpdate, user_id: number | undefined) {
     if (this.https === undefined) {
       throw new Error('Set the Auth data');
     }

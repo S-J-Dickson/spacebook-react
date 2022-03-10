@@ -1,16 +1,12 @@
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Avatar, Text } from 'react-native-paper';
 import UserDataService from '../api/authenticated/user/UserDataService';
-import { User } from '../interfaces/Interfaces';
-import { Photo as PhotoType } from '../types/Types';
-
-type UserHeaderProp = {
-  item: User;
-  authData: any | undefined;
-};
+import { Photo as PhotoType, UserHeaderProp } from '../types/Types';
 
 export default function UserHeader(props: UserHeaderProp) {
   const { item, authData } = props;

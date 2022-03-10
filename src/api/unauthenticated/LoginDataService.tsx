@@ -1,6 +1,6 @@
 import { UserLogin } from '../../interfaces/Interfaces';
 import { LoginUser } from '../../types/Types';
-import axios from './api';
+import axios from './Api';
 // https://www.bezkoder.com/react-typescript-axios/#Create_Data_Service
 /**
  * @author Stephen

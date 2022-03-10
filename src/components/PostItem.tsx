@@ -1,21 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Avatar, Text } from 'react-native-paper';
 import PostDataService from '../api/authenticated/post/PostDataService';
 import checkNetwork from '../exceptions/CheckNetwork';
-import { Post } from '../interfaces/Interfaces';
-import { PostStackParams } from '../types/Types';
+import { PostItemProp, PostScreenProp } from '../types/Types';
 import UserHeader from './UserHeader';
-
-type PostItemProp = {
-  item: Post;
-  authData: any | undefined;
-};
-
-type PostScreenProp = StackNavigationProp<PostStackParams>;
 
 export default function PostItem(props: PostItemProp) {
   const navigation = useNavigation<PostScreenProp>();

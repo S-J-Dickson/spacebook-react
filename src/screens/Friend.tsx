@@ -1,20 +1,14 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 
-import { FlatList, SafeAreaView, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Portal, Provider, Title, Button, Modal } from 'react-native-paper';
 import FriendDataService from '../api/authenticated/friend/FriendDataService';
 import UserHeader from '../components/UserHeader';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
-
-type UserFriend = {
-  user_email: string;
-  user_familyname: string;
-  user_givenname: string;
-  user_id: number;
-};
+import { UserFriend } from '../types/Types';
 
 function Friend() {
   const [friendList, setFriendList] = useState<[UserFriend] | undefined>(

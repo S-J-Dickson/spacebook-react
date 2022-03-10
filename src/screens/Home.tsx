@@ -1,5 +1,4 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useState } from 'react';
 
 import { SafeAreaView, Text, View, StyleSheet, FlatList } from 'react-native';
@@ -11,9 +10,8 @@ import PostItem from '../components/PostItem';
 import { useAuth } from '../context/AuthContext';
 import checkNetwork from '../exceptions/CheckNetwork';
 import { Post } from '../interfaces/Interfaces';
-import { PostStackParams } from '../types/Types';
+import { PostScreenProp } from '../types/Types';
 
-type PostScreenProp = StackNavigationProp<PostStackParams>;
 function HomeScreen() {
   const navigation = useNavigation<PostScreenProp>();
   const styles = StyleSheet.create({

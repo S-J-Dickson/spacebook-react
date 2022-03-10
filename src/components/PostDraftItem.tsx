@@ -1,18 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { DraftPost } from '../interfaces/Interfaces';
-import { PostStackParams } from '../types/Types';
-
-type PostDraftItemProp = {
-  item: DraftPost;
-  updateDraftPost: ([]) => {};
-};
-
-type DraftScreenProp = StackNavigationProp<PostStackParams>;
+import { DraftScreenProp, PostDraftItemProp } from '../types/Types';
 
 export default function PostDraftItem(props: PostDraftItemProp) {
   const navigation = useNavigation<DraftScreenProp>();

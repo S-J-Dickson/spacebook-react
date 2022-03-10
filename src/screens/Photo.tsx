@@ -1,3 +1,8 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-useless-escape */
+/* eslint-disable react/jsx-one-expression-per-line */
+
 import React, { useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
@@ -65,8 +70,6 @@ function PhotoScreen() {
           });
         });
       return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
         setPhoto([]);
       };
     }, [])

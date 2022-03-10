@@ -1,3 +1,8 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable object-curly-newline */
+/* eslint-disable @typescript-eslint/comma-dangle */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useState } from 'react';
 

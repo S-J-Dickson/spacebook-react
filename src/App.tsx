@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import BackgroundFetch from 'react-native-background-fetch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LogBox } from 'react-native';
 import { Router } from './navigation/Router';
 import { AuthProvider } from './context/AuthContext';
 import { DraftPost } from './interfaces/Interfaces';
@@ -13,6 +14,9 @@ class App extends React.Component {
   componentDidMount() {
     // Initialize BackgroundFetch ONLY ONCE when component mounts.
     this.initBackgroundFetch();
+
+    LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+    LogBox.ignoreAllLogs(); // Ignore all log notifications
   }
 
   addEvent = async (taskId) => {

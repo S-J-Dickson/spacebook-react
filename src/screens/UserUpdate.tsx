@@ -1,11 +1,10 @@
+/* eslint-disable no-useless-escape */
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { SafeAreaView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { TextInput } from 'react-native-gesture-handler';
 import { Button } from 'react-native-paper';
 import UserDataService from '../api/authenticated/user/UserDataService';
 import FormInput from '../components/FormInput';
@@ -15,9 +14,7 @@ import {
   UserUpdate as UserUpdateInterface,
   UserRequest,
 } from '../interfaces/Interfaces';
-import { SettingStackParams } from '../types/Types';
-
-type SettingScreenProp = StackNavigationProp<SettingStackParams, 'Setting'>;
+import { SettingScreenProp } from '../types/Types';
 
 function UserUpdate() {
   const navigation = useNavigation<SettingScreenProp>();
@@ -66,7 +63,7 @@ function UserUpdate() {
 
         navigation.navigate('Settings');
       })
-      .catch((err) => {
+      .catch((err: any) => {
         checkNetwork(err.message);
 
         if (err.response?.status === 400) {
