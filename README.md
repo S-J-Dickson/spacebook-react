@@ -7,6 +7,7 @@
 - npx react-native start
 - npx react-native run-android
 - npm run dev
+- adb shell cmd jobscheduler run -f com.typescript 999
 
 ## Styling Guide 
 - 
@@ -22,3 +23,4 @@
 
 ## UI STYLE 
 - https://callstack.github.io/react-native-paper/text-input.html
+
